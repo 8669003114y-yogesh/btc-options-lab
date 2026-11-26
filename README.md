@@ -11,6 +11,10 @@ Works offline for calculations; live data needs the page to be opened directly (
 - Strategy builder (straddle, strangle, spreads), trade journal (stored in browser localStorage)
 - English / Marathi toggle
 
+## Install as an app (PWA)
+Open the hosted page in Chrome (Android) -> menu -> *Install app* / *Add to Home screen*. On iPhone: Safari -> Share -> *Add to Home Screen*.
+Files needed in the repo root: `index.html`, `manifest.webmanifest`, `sw.js`, `icon-192.png`, `icon-512.png`.
+
 ## Run
 Open `index.html` in a browser, or serve it:
 

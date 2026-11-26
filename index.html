@@ -3,6 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#091017">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Option Lab">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>BTC ऑप्शन चेन + कॅल्क्युलेटर</title>
 <style>
 :root{--bg:#091017;--card:#101a22;--card2:#172531;--tx:#eef5f6;--mu:#93a8b2;--bd:#243542;--g:#2fd39b;--r:#ff5d73;--ac:#2ec4b6;--ac2:#7c6cff;--hl:#12363a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
@@ -11,7 +18,7 @@
 body{margin:0;color:var(--tx);font:16px/1.4 system-ui,sans-serif;padding:0 10px 92px;max-width:520px;margin-inline:auto;background:var(--bg);min-height:100vh}
 .hdr{display:flex;justify-content:space-between;align-items:center;padding:12px 2px}
 .logo{font-size:20px;font-weight:800;background:linear-gradient(90deg,var(--ac),var(--ac2));-webkit-background-clip:text;background-clip:text;color:transparent}
-#lg{border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:20px;padding:6px 14px;font-weight:700}
+#ins,#lg{border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:20px;padding:6px 14px;font-weight:700}
 .card{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,0)),var(--card);border:1px solid var(--bd);border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:0 4px 16px rgba(0,0,0,.18)}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 label{display:block;font-size:12px;color:var(--mu);margin-bottom:4px;letter-spacing:.2px}
@@ -107,7 +114,7 @@ nav{border-radius:20px 20px 0 0;gap:4px}
 </style>
 </head>
 <body>
-<div class="hdr"><div class="logo">Option Lab</div><button id="lg">EN</button></div>
+<div class="hdr"><div class="logo">Option Lab</div><div style="display:flex;gap:8px"><button id="ins" hidden>📲 Install</button><button id="lg">EN</button></div></div>
 <div id="alb" class="alb" hidden></div>
 <div id="t1">
 
@@ -624,6 +631,10 @@ $('prt').onclick=prTap;$('prp').onclick=prTap;$('prx').onchange=prRender;$('prl'
 $('prs').onclick=function(e){if(e.target.tagName!='BUTTON')return;psd=e.target.dataset.v;setSeg('prs',psd);prRender()};
 $('prw').onclick=function(e){if(e.target.tagName!='BUTTON')return;pwin=e.target.dataset.v;setSeg('prw',pwin);prRender()};
 
+var dip=null;
+if(window.addEventListener)window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();dip=e;$('ins').hidden=false});
+$('ins').onclick=function(){if(dip){dip.prompt();dip=null;$('ins').hidden=true}};
+try{if('serviceWorker' in navigator&&location.protocol.indexOf('http')==0)navigator.serviceWorker.register('sw.js').catch(function(){})}catch(e){}
 /* ===== टॅब ===== */
 function tab(x){[1,2,3,4,5].forEach(function(i){$('t'+i).hidden=i!=x});[].forEach.call(document.querySelectorAll('nav button'),function(b){b.classList.toggle('on',b.dataset.t==x)});if(x==2&&!all.length)loadAll();if(x==5){if(!all.length)loadAll();else prRender()}if(x==3)sbInit();if(x==4)jrRender();window.scrollTo(0,0)}
 document.querySelector('nav').onclick=function(e){if(e.target.dataset.t)tab(+e.target.dataset.t)};
