@@ -12,8 +12,8 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>BTC ऑप्शन चेन + कॅल्क्युलेटर</title>
 <style>
-:root{--bg:#091017;--card:#101a22;--card2:#172531;--tx:#eef5f6;--mu:#93a8b2;--bd:#243542;--g:#2fd39b;--r:#ff5d73;--ac:#2ec4b6;--ac2:#7c6cff;--hl:#12363a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
-@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#eaf2f4;--card:#fff;--card2:#eff6f7;--tx:#10201f;--mu:#52666b;--bd:#cfdfe3;--g:#0e9a72;--r:#d23a56;--hl:#d7f3ef}}
+:root{--bg:#0b0f1a;--card:#121829;--card2:#1a2238;--tx:#eef1fb;--mu:#98a3bf;--bd:#27314d;--g:#34d399;--r:#fb7185;--ac:#5b8cff;--ac2:#22d3ee;--hl:#16264d;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#edf1fb;--card:#fff;--card2:#f1f4fc;--tx:#111a33;--mu:#5a6788;--bd:#d6ddf0;--g:#0f9f74;--r:#d63d5b;--hl:#dde7ff}}
 *{box-sizing:border-box}
 body{margin:0;color:var(--tx);font:16px/1.4 system-ui,sans-serif;padding:0 10px 92px;max-width:520px;margin-inline:auto;background:var(--bg);min-height:100vh}
 .hdr{display:flex;justify-content:space-between;align-items:center;padding:12px 2px}
@@ -111,12 +111,27 @@ nav{border-radius:20px 20px 0 0;gap:4px}
 #prt table{width:100%}#prt td{text-align:center;cursor:pointer;line-height:1.25;font-size:13px;padding:6px 3px}
 #prt td.k{background:var(--bg);font-weight:700;cursor:default}#prt tr.atm td.k{color:var(--ac)}
 #prt small,.pc small{color:var(--mu);font-size:11px}
+.jr{flex-wrap:wrap}.jr .nt{width:100%;padding:7px 9px;font-size:13px;margin-top:4px;font-weight:500}
+
+.seg button.on,.q button.on,.btn,.step button{color:#fff;background:linear-gradient(135deg,var(--ac),var(--ac2));border-color:transparent}
+.seg button,.q button,.btn,.btn2,.step button{border-radius:999px}
+.card{border-radius:20px}
+.hdr{border-bottom:2px solid transparent;border-image:linear-gradient(90deg,var(--ac),var(--ac2)) 1}
+.logo::before{background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff}
+nav button{display:flex;flex-direction:column;align-items:center;gap:1px;font-size:10px;padding:6px 0;line-height:1.1}
+nav button span{font-size:19px}
+nav button.on{background:rgba(91,140,255,.18);color:var(--ac)}
+.gt tr.gs td{outline-color:var(--ac)}
+#cls table{width:100%}#cls td{text-align:center;cursor:pointer;line-height:1.25;font-size:13px;padding:6px 3px}
+#cls td.k{background:var(--bg);font-weight:700;cursor:default}#cls tr.atm td.k{color:var(--ac)}#cls small{color:var(--mu);font-size:11px}
+#cch{touch-action:manipulation;cursor:crosshair}
 </style>
 </head>
 <body>
 <div class="hdr"><div class="logo">Option Lab</div><div style="display:flex;gap:8px"><button id="ins" hidden>📲 Install</button><button id="lg">EN</button></div></div>
 <div id="alb" class="alb" hidden></div>
 <div id="t1">
+<div id="ptb" class="card" hidden style="cursor:pointer;padding:10px 14px"></div>
 
 <div class="card">
   <div class="grid">
@@ -189,7 +204,7 @@ nav{border-radius:20px 20px 0 0;gap:4px}
   <div id="ivn" class="mu"></div>
   <div class="mu" id="cost" style="margin-top:6px"></div>
   <div id="net" style="margin-top:6px;font-weight:600"></div>
-  <button id="sj" class="btn2" style="margin-top:10px;width:100%">📒 ट्रेड जर्नलमध्ये सेव्ह करा</button>
+  <div class="grid" style="margin-top:10px"><button id="sj" class="btn2">📒 जर्नलमध्ये सेव्ह</button><button id="sp" class="btn2">📄 पेपर ट्रेड घ्या</button></div>
 </div>
 
 <details class="card">
@@ -291,6 +306,44 @@ nav{border-radius:20px 20px 0 0;gap:4px}
   <div class="card"><b>⭐ टॉप पिक्स</b><div class="mu" id="prh" style="margin:2px 0 6px"></div><div id="prp"></div></div>
   <div class="card"><div class="mu" style="margin-bottom:6px">प्रत्येक खान्यात: प्राईस · शून्य होण्याची शक्यता · बॅलन्समध्ये किती Lot · Breakeven साठी BTC किती %. खान्यावर टॅप = कॅल्क्युलेटरमध्ये उघडेल.</div><div id="prt" style="max-height:520px;overflow:auto"></div></div>
 </div>
+<div id="t6" hidden>
+  <div class="card">
+    <b>📈 प्रॉपर चार्ट (OHLC)</b>
+    <div class="grid" style="margin-top:8px">
+      <div><label>Symbol</label><input id="csy" value="BTCUSD"></div>
+      <div style="display:flex;align-items:flex-end"><button id="cgo" class="btn">📈 चार्ट उघडा</button></div>
+    </div>
+    <div class="q" id="cre"><button data-v="15m">15m</button><button data-v="1h" class="on">1h</button><button data-v="4h">4h</button><button data-v="1d">1d</button></div>
+    <div class="q" id="cnn"><button data-v="60">60</button><button data-v="120" class="on">120</button><button data-v="240">240</button></div>
+    <div class="seg" id="cmk" style="margin-top:8px"><button data-v="M" class="on">Mark</button><button data-v="L">Last</button></div>
+    <div id="cst" class="mu" style="margin-top:6px"></div>
+  </div>
+  <div class="card"><svg id="cch" viewBox="0 0 360 270" width="100%"></svg><div id="cin" class="mu" style="margin-top:4px;text-align:center">चार्टवर टॅप करा → त्या कँडलचा OHLC</div></div>
+  <div class="card">
+    <b>🧾 कँडल्स (OHLC टेबल)</b>
+    <div style="max-height:300px;overflow:auto;margin-top:6px"><table id="cot"></table></div>
+    <button id="ccsv" class="btn2" style="width:100%;margin-top:8px">⬇️ CSV</button>
+  </div>
+  <div class="card">
+    <b>🔗 ऑप्शन चेन (टॅप = चार्ट)</b>
+    <div class="grid" style="margin-top:8px"><div><label>Expiry</label><select id="cex"></select></div><div style="display:flex;align-items:flex-end"><button id="cld" class="btn">🔄 सगळे लोड करा</button></div></div>
+    <div id="cls" style="max-height:420px;overflow:auto;margin-top:8px"></div>
+  </div>
+  <div class="card">
+    <b>🎯 BTC चान्स (प्रेडिक्शन)</b>
+    <div class="grid" style="margin-top:8px">
+      <div><label>कितीच्या आत? (तास)</label><input id="pbh" type="number" value="24"></div>
+      <div><label>BTC लेव्हल ($) — उदा. 57000</label><input id="pbl" type="number" placeholder="57000"></div>
+      <div><label>IV %</label><input id="piv" type="number" placeholder="सेटिंग्जमधला IV"></div>
+      <div style="display:flex;align-items:flex-end"><button id="pbf" class="btn2" style="width:100%">📥 BTC हिस्टरी आणा (1h, 30 दिवस)</button></div>
+    </div>
+    <div id="pbm" class="mu" style="margin-top:6px"></div>
+    <div id="pbo" style="margin-top:8px;line-height:1.6"></div>
+    <div style="overflow:auto;margin-top:8px"><table class="gt" id="pbt"></table></div>
+    <div class="mu" style="margin-top:6px">शेवटी = वेळ संपताना त्या पातळीच्या पलीकडे असण्याची शक्यता. स्पर्श = वाटेत कधीही गाठण्याची शक्यता. इतिहास = सेव्ह केलेल्या BTC कँडल्समध्ये तसं किती वेळा घडलं. हे अंदाज आहेत, हमी नाही.</div>
+  </div>
+  <div class="card"><b>🗄️ सेव्ह केलेला हिस्टरी डेटा</b><div class="mu" style="margin:4px 0 6px">चार्ट उघडला की कँडल्स आपोआप या फोनमध्ये साठतात. वेळेनुसार हिस्टरी वाढत जाते.</div><div id="hlst"></div></div>
+</div>
 <div id="t3" hidden>
   <div class="card">
     <b>🧩 Strategy बिल्डर</b>
@@ -304,13 +357,20 @@ nav{border-radius:20px 20px 0 0;gap:4px}
 </div>
 <div id="t4" hidden>
   <div class="kpis" id="js"></div>
+  <div class="card"><b>📈 Equity curve</b><svg id="jeq" viewBox="0 0 360 150" width="100%" style="margin-top:6px"></svg></div>
+  <div class="card">
+    <b>📄 पेपर ट्रेड्स (लाईव्ह)</b>
+    <div class="mu" style="margin:4px 0 8px">खऱ्या पैशाशिवाय ट्रेड. 🟢 लाईव्ह चालू असताना टार्गेट/SL ला आपोआप क्लोज होतो.</div>
+    <div class="kpis" id="ppk" style="margin-bottom:8px"></div><div id="ppl"></div>
+  </div>
   <div class="card">
     <b>📒 ट्रेड जर्नल</b>
     <div class="mu" style="margin:4px 0 8px">कॅल्क्युलेटरमधून "सेव्ह करा" दाबा. नंतर एक्झिट प्राईस टाकून क्लोज करा. डेटा याच फोनमध्ये साठवला जातो.</div>
+    <button id="jcsv" class="btn2" style="width:100%;margin-bottom:8px">⬇️ CSV डाउनलोड (बॅकअप)</button>
     <div id="jl"></div>
   </div>
 </div>
-<nav><button data-t="1" class="on">🧮 Calc</button><button data-t="2">🔬 Chain</button><button data-t="5">🔮 Predict</button><button data-t="3">🧩 Strategy</button><button data-t="4">📒 Journal</button></nav>
+<nav><button data-t="1" class="on"><span>🧮</span>Calc</button><button data-t="2"><span>🔬</span>Chain</button><button data-t="5"><span>🔮</span>Predict</button><button data-t="6"><span>📈</span>Charts</button><button data-t="3"><span>🧩</span>Strategy</button><button data-t="4"><span>📒</span>Journal</button></nav>
 <script>
 var $=function(i){return document.getElementById(i)},typ='C',sd='B',cur='₹',LOT=0.001,chain={},strikes=[],timer=null,avr=[[800,1],[600,1]];
 function n(i){return parseFloat($(i).value)||0}
@@ -353,7 +413,7 @@ function calc(){
   var fee=2*Math.min(n('fe')/100*q.S*LOT*q.lots,0.1*q.p*LOT*q.lots)*1.18,net=o.usd-fee;
   $('net').innerHTML='फी −₹'+(fee*q.fx).toFixed(1)+' → नेट: <span class="'+(net>=0?'g':'r')+'">'+(net>=0?'+':'−')+'₹'+Math.abs(net*q.fx).toFixed(1)+'</span>';
   grid(q);
-  extra(q,rem);probs(q,rem);alerts(q);renderChain(q,rem);payoff(q,rem);
+  extra(q,rem);probs(q,rem);alerts(q);renderChain(q,rem);payoff(q,rem);ptStrip();saveSet();
 }
 var gm='pr',gv=0;
 var gsel=null;
@@ -498,7 +558,7 @@ async function tick(){
     $('s').value=sp.toFixed(1);var msg='🟢 BTC '+sp.toFixed(0);
     if(rs[1]&&rs[1].result){var o=rs[1].result,qu=o.quotes||{},v=(sd=='B'?num(qu.best_bid):num(qu.best_ask))||num(o.mark_price);if(v){$('cp').value=pv(v);msg+=' | ऑप्शन '+m(v)}}
     else if(d)msg+=' | ऑप्शन सापडला नाही (strike/तारीख तपासा)';
-    $('lv').textContent=msg+' | '+new Date().toLocaleTimeString();calc();
+    $('lv').textContent=msg+' | '+new Date().toLocaleTimeString();calc();ptTickAll();
   }catch(err){$('lv').textContent='🔴 लाईव्ह नाही: '+err.message+' — फाईल फोनवर थेट उघडा, किंवा हाताने भरा'}
 }
 function liveOn(){clearInterval(lt);if($('lc').checked){tick();lt=setInterval(tick,5000)}else $('lv').textContent='लाईव्ह बंद — हाताने भरलेले आकडे वापरले जातात'}
@@ -541,19 +601,30 @@ var J=[];try{J=JSON.parse(localStorage.getItem('btcj')||'[]')}catch(e){}
 function jsave(){try{localStorage.setItem('btcj',JSON.stringify(J))}catch(e){}}
 function kp(l,v,c){return'<div class="kpi"><small>'+l+'</small><b class="'+(c||'')+'">'+v+'</b></div>'}
 function jpnl(t){var d=t.B?t.x-t.p:t.p-t.x,fee=2*Math.min(n('fe')/100*t.s*LOT*t.l,0.1*t.p*LOT*t.l)*1.18;return(d*LOT*t.l-fee)*t.fx}
-$('sj').onclick=function(){var q=P();if(!(q.K>0&&q.p>0))return;J.unshift({ts:new Date().toLocaleString(),B:q.B,c:q.c,K:q.K,p:q.p,l:q.lots,s:q.S,x:null,fx:q.fx});jsave();$('sj').textContent='✅ सेव्ह झालं';setTimeout(function(){$('sj').textContent='📒 ट्रेड जर्नलमध्ये सेव्ह करा'},1500)};
+$('sj').onclick=function(){var q=P();if(!(q.K>0&&q.p>0))return;J.unshift({ts:new Date().toLocaleString(),B:q.B,c:q.c,K:q.K,p:q.p,l:q.lots,s:q.S,x:null,fx:q.fx});jsave();$('sj').textContent='✅ सेव्ह झालं';setTimeout(function(){$('sj').textContent='📒 जर्नलमध्ये सेव्ह'},1500)};
+function esc(x){return String(x).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;')}
 function jrRender(){
-  var tot=0,w=0,cl=0,h='';
-  J.forEach(function(t,i){var done=t.x!=null,v=done?jpnl(t):0;if(done){cl++;tot+=v;if(v>=0)w++}
+  var tot=0,w=0,cl=0,sw=0,sl2=0,nl=0,h='',eq=[];
+  J.slice().reverse().forEach(function(t){if(t.x!=null){var v=jpnl(t);eq.push((eq.length?eq[eq.length-1]:0)+v)}});
+  J.forEach(function(t,i){var done=t.x!=null,v=done?jpnl(t):0;if(done){cl++;tot+=v;if(v>=0){w++;sw+=v}else{nl++;sl2+=v}}
     h+='<div class="jr"><div><b>'+(t.B?'Buy ':'Sell ')+t.K+' '+(t.c?'Call':'Put')+' × '+t.l+' Lot</b><div class="mu">'+t.ts+' · एंट्री '+m(t.p)+(done?' → एक्झिट '+m(t.x):'')+'</div></div>'
      +(done?'<b class="'+(v>=0?'g':'r')+'">'+(v>=0?'+':'−')+'₹'+Math.abs(v).toFixed(0)+'</b>':'<div class="jx"><input id="jx'+i+'" type="number" placeholder="एक्झिट"><button class="btn2" data-a="c" data-i="'+i+'">क्लोज</button></div>')
-     +'<button class="x" data-a="d" data-i="'+i+'">×</button></div>'});
+     +'<button class="x" data-a="d" data-i="'+i+'">×</button><input class="nt" data-i="'+i+'" placeholder="नोट" value="'+esc(t.note||'')+'"></div>'});
   $('jl').innerHTML=h||'<div class="mu">–</div>';
-  $('js').innerHTML=kp('नेट P&L',(tot>=0?'+':'−')+'₹'+Math.abs(tot).toFixed(0),tot>=0?'g':'r')+kp('ट्रेड्स',cl+' / '+J.length)+kp('जिंकण्याचा %',cl?(w/cl*100).toFixed(0)+'%':'–');
+  var f0=function(v){return(v>=0?'+':'−')+'₹'+Math.abs(v).toFixed(0)};
+  $('js').innerHTML=kp('नेट P&L',f0(tot),tot>=0?'g':'r')+kp('ट्रेड्स',cl+' / '+J.length)+kp('जिंकण्याचा %',cl?(w/cl*100).toFixed(0)+'%':'–')+kp('Avg Win',w?f0(sw/w):'–','g')+kp('Avg Loss',nl?f0(sl2/nl):'–','r')+kp('Profit Factor',sl2?(sw/Math.abs(sl2)).toFixed(2):(sw?'∞':'–'));
+  var el=$('jeq');
+  if(eq.length<2)el.innerHTML='<text x="180" y="80" font-size="11" text-anchor="middle" style="fill:var(--mu)">किमान 2 क्लोज ट्रेड हवेत</text>';
+  else{var mn=Math.min(0,Math.min.apply(null,eq)),mx=Math.max(0,Math.max.apply(null,eq));if(mx-mn<1){mx+=1}
+    var W=360,H=150,L=44,R=8,T=10,Bt=14,X=function(i){return L+i/(eq.length-1)*(W-L-R)},Y=function(v){return T+(mx-v)/(mx-mn)*(H-T-Bt)},
+        d=eq.map(function(v,i){return(i?'L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1)}).join('');
+    el.innerHTML='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+Y(0)+'" y2="'+Y(0)+'" style="stroke:var(--mu)" stroke-dasharray="3"/><path d="'+d+'" fill="none" stroke-width="2.4" style="stroke:var(--'+(eq[eq.length-1]>=0?'g':'r')+')"/><text x="2" y="'+(T+8)+'" font-size="9" style="fill:var(--mu)">₹'+mx.toFixed(0)+'</text><text x="2" y="'+(H-Bt)+'" font-size="9" style="fill:var(--mu)">₹'+mn.toFixed(0)+'</text>'}
+  ptRender();
 }
+$('jl').onchange=function(e){if(e.target.classList&&e.target.classList.contains('nt')){var i=e.target.dataset.i;if(J[i]){J[i].note=e.target.value;jsave()}}};
 $('jl').onclick=function(e){var a=e.target.dataset.a,i=e.target.dataset.i;
   if(a=='d')J.splice(i,1);
-  else if(a=='c'){var v=parseFloat($('jx'+i).value);if(!(v>=0))return;J[i].x=toU(v)}
+  else if(a=='c'){var v=parseFloat($('jx'+i).value);if(!(v>=0))return;J[i].x=toU(v);J[i].xt=Date.now()}
   else return;
   jsave();jrRender()};
 /* ===== Strategy ===== */
@@ -635,8 +706,152 @@ var dip=null;
 if(window.addEventListener)window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();dip=e;$('ins').hidden=false});
 $('ins').onclick=function(){if(dip){dip.prompt();dip=null;$('ins').hidden=true}};
 try{if('serviceWorker' in navigator&&location.protocol.indexOf('http')==0)navigator.serviceWorker.register('sw.js').catch(function(){})}catch(e){}
+
+/* ===== सेटिंग्ज लक्षात ठेवा ===== */
+var SK=['k','p','iv','lev','bal','fx','fe','rk','tg','sl','hh','mv','l','s'];
+function saveSet(){try{var o={};SK.forEach(function(i){o[i]=$(i).value});o.typ=typ;o.sd=sd;o.cur=cur;o.lc=$('lc').checked;localStorage.setItem('btcs',JSON.stringify(o))}catch(e){}}
+function loadSet(){try{var o=JSON.parse(localStorage.getItem('btcs')||'null');if(!o)return;
+  SK.forEach(function(i){if(o[i]!==undefined&&o[i]!=='')$(i).value=o[i]});
+  if(o.typ){typ=o.typ;setSeg('typ',typ)}if(o.sd){sd=o.sd;setSeg('sd',sd)}
+  if(o.cur){cur=o.cur;setSeg('cur',cur);$('cu').textContent=cur;$('cu2').textContent=cur;$('cu3').textContent=cur}
+  if(o.lc===false)$('lc').checked=false}catch(e){}}
+/* ===== पेपर ट्रेडिंग ===== */
+var PT=[];try{PT=JSON.parse(localStorage.getItem('btcp')||'[]')}catch(e){}
+function psave(){try{localStorage.setItem('btcp',JSON.stringify(PT))}catch(e){}}
+function exMs(d){var p=d.split('-');return Date.UTC(+p[0],+p[1]-1,+p[2],12,0)}
+function ptVal(t){if(t.cur>0&&Date.now()-t.ct<120000)return t.cur;return bs(n('s'),t.K,(n('iv')/100)||.5,Math.max(0,(exMs(t.e)-Date.now())/3600000),t.c)}
+function ptPnl(t,x){var d=t.B?x-t.p:t.p-x,fee=2*Math.min(n('fe')/100*t.s*LOT*t.l,0.1*t.p*LOT*t.l)*1.18;return(d*LOT*t.l-fee)*t.fx}
+function ptLv(t){return[t.B?t.p*(1+t.tg/100):t.p*(1-t.tg/100),t.B?t.p*(1-t.sl/100):t.p*(1+t.sl/100)]}
+function ptClose(t,x,why){t.x=x;t.xr=why;t.xt=Date.now();psave()}
+$('sp').onclick=function(){var q=P();if(!(q.K>0&&q.p>0))return;PT.unshift({id:Date.now(),ts:new Date().toLocaleString(),B:q.B,c:q.c,K:q.K,e:$('ed').value,p:q.p,l:q.lots,s:q.S,fx:q.fx,tg:n('tg'),sl:n('sl'),x:null,xr:'',cur:q.cp>0?q.cp:0,ct:Date.now()});psave();ptStrip();$('sp').textContent='✅ सेव्ह झालं';setTimeout(function(){$('sp').textContent='📄 पेपर ट्रेड घ्या'},1500)};
+function ptStrip(){var op=PT.filter(function(t){return t.x==null}),el=$('ptb');if(!op.length){el.hidden=true;return}
+  var tot=0;op.forEach(function(t){tot+=ptPnl(t,ptVal(t))});el.hidden=false;el.innerHTML='📄 पेपर: '+op.length+' ओपन · <b class="'+(tot>=0?'g':'r')+'">'+(tot>=0?'+':'−')+'₹'+Math.abs(tot).toFixed(0)+'</b> <span class="mu">›</span>'}
+$('ptb').onclick=function(){tab(4)};
+async function ptTickAll(){
+  var op=PT.filter(function(t){return t.x==null});if(!op.length)return;
+  var S=n('s');
+  await Promise.all(op.map(async function(t){var p=t.e.split('-'),sym=(t.c?'C':'P')+'-BTC-'+t.K+'-'+p[2]+p[1]+p[0].slice(2);
+    try{var r=await fetch(BASE+sym),j=await r.json(),o=j.result;if(o){var qu=o.quotes||{},v=(t.B?num(qu.best_bid):num(qu.best_ask))||num(o.mark_price);if(v){t.cur=v;t.ct=Date.now()}}}catch(e){}}));
+  op.forEach(function(t){var nm='📄 '+t.K+' '+(t.c?'Call':'Put');
+    if(Date.now()>exMs(t.e)){ptClose(t,t.c?Math.max(S-t.K,0):Math.max(t.K-S,0),'EXP ⏱');fire('pt'+t.id,nm+' — EXP ⏱',1);return}
+    if(!(t.cur>0&&Date.now()-t.ct<60000))return;
+    var v=t.cur,lv=ptLv(t);
+    if(t.B?v>=lv[0]:v<=lv[0]){ptClose(t,v,'TP 🎯');fire('pt'+t.id,nm+' — टार्गेट लागला! '+m(v),1)}
+    else if(t.B?v<=lv[1]:v>=lv[1]){ptClose(t,v,'SL 🛑');fire('pt'+t.id,nm+' — SL लागला! '+m(v),0)}});
+  psave();ptStrip();if(!$('t4').hidden)jrRender();
+}
+function ptRender(){
+  var rl=0,un=0,w=0,c=0,h='',f0=function(v){return(v>=0?'+':'−')+'₹'+Math.abs(v).toFixed(0)};
+  PT.forEach(function(t,i){var done=t.x!=null,x=done?t.x:ptVal(t),v=ptPnl(t,x),lv=ptLv(t);
+    if(done){rl+=v;c++;if(v>=0)w++}else un+=v;
+    h+='<div class="jr"'+(done?' style="opacity:.7"':'')+'><div><b>'+(t.B?'Buy ':'Sell ')+t.K+' '+(t.c?'Call':'Put')+' × '+t.l+' Lot</b><div class="mu">एंट्री '+m(t.p)+' → '+(done?'एक्झिट ':'आता ')+m(x)+(done?' · '+t.xr:' · TP '+m(lv[0])+' · SL '+m(lv[1]))+'</div></div><b class="'+(v>=0?'g':'r')+'">'+f0(v)+'</b>'+(done?'':'<button class="btn2" data-pa="c" data-i="'+i+'">क्लोज</button>')+'<button class="x" data-pa="d" data-i="'+i+'">×</button></div>'});
+  $('ppl').innerHTML=h||'<div class="mu">–</div>';
+  $('ppk').innerHTML=kp('Realized',f0(rl),rl>=0?'g':'r')+kp('Unrealized',f0(un),un>=0?'g':'r')+kp('जिंकण्याचा %',c?(w/c*100).toFixed(0)+'%':'–');
+}
+$('ppl').onclick=function(e){var a=e.target.dataset.pa,i=e.target.dataset.i;if(a=='d')PT.splice(i,1);else if(a=='c'){var t=PT[i];ptClose(t,ptVal(t),'हाताने')}else return;psave();ptRender();ptStrip()};
+/* ===== CSV ===== */
+$('jcsv').onclick=function(){
+  var rows=[['type','time','side','option','strike','lots','entry_usd','exit_usd','pnl_inr','note']];
+  J.forEach(function(t){rows.push(['journal',t.ts,t.B?'Buy':'Sell',t.c?'Call':'Put',t.K,t.l,t.p,t.x==null?'':t.x,t.x==null?'':jpnl(t).toFixed(1),t.note||''])});
+  PT.forEach(function(t){rows.push(['paper',t.ts,t.B?'Buy':'Sell',t.c?'Call':'Put',t.K,t.l,t.p,t.x==null?'':t.x,t.x==null?'':ptPnl(t,t.x).toFixed(1),t.xr||''])});
+  var c=rows.map(function(r){return r.map(function(v){return'"'+String(v).replace(/"/g,'""')+'"'}).join(',')}).join('\n');
+  var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([c],{type:'text/csv'}));a.download='btc-trades.csv';document.body.appendChild(a);a.click();a.remove();
+};
+
+
+/* ===== Charts: डेटा + हिस्टरी ===== */
+var CH={res:'1h',n:120,mark:true,data:[],sel:-1,key:'',opt:false},STEP={'15m':900,'1h':3600,'4h':14400,'1d':86400};
+function fmtP(v){return v>=1000?v.toFixed(0):v>=100?v.toFixed(1):v.toFixed(2)}
+function tlab(t){var d=new Date(t*1000),z=function(x){return('0'+x).slice(-2)};return z(d.getDate())+'/'+z(d.getMonth()+1)+' '+z(d.getHours())+':'+z(d.getMinutes())}
+function hkey(sym,res){return'btch:'+sym+'|'+res}
+function hget(k){try{return JSON.parse(localStorage.getItem(k)||'[]')}catch(e){return[]}}
+function hput(k,a,d){try{localStorage.setItem(k,JSON.stringify(a))}catch(e){if((d||0)>8)return;var ks=[];try{for(var i=0;i<localStorage.length;i++){var x=localStorage.key(i);if(x.indexOf('btch:')==0&&x!=k)ks.push(x)}}catch(e2){}if(ks.length){localStorage.removeItem(ks[0]);hput(k,a,(d||0)+1)}}}
+function hmerge(k,rows){var mp={};hget(k).forEach(function(r){mp[r[0]]=r});rows.forEach(function(r){mp[r[0]]=r});var a=Object.keys(mp).map(function(t){return mp[t]}).sort(function(x,y){return x[0]-y[0]});if(a.length>3000)a=a.slice(-3000);hput(k,a);return a}
+async function fetchC(sym,res,cnt){
+  var end=Math.floor(Date.now()/1000),start=end-STEP[res]*Math.min(2000,cnt);
+  var r=await fetch('https://api.india.delta.exchange/v2/history/candles?resolution='+res+'&symbol='+encodeURIComponent(sym)+'&start='+start+'&end='+end),j=await r.json(),a=j.result;
+  if(!a||!a.length)throw new Error('कँडल्स मिळाल्या नाहीत ('+sym+')');
+  return a.map(function(c){return[+c.time,+c.open,+c.high,+c.low,+c.close,+(c.volume||0)]}).sort(function(x,y){return x[0]-y[0]})}
+async function chOpen(){
+  var sym=$('csy').value.trim().toUpperCase();if(!sym)return;
+  CH.opt=/^[CP]-/.test(sym);CH.sel=-1;
+  var api=(CH.opt&&CH.mark?'MARK:':'')+sym,k=hkey(api,CH.res);CH.key=k;
+  $('cst').textContent='⏳ आणत आहे...';
+  try{var rows=await fetchC(api,CH.res,Math.max(CH.n,500));CH.data=hmerge(k,rows);$('cst').textContent='✅ '+api+' · '+CH.res+' · सेव्ह: '+CH.data.length+' कँडल्स'}
+  catch(err){CH.data=hget(k);$('cst').textContent='❌ '+err.message+(CH.data.length?' — सेव्ह केलेला डेटा दाखवत आहे ('+CH.data.length+')':'')}
+  chDraw();hList();
+}
+function chDraw(){
+  var a=CH.data.slice(-CH.n),el=$('cch'),cnt=a.length;
+  if(!cnt){el.innerHTML='<text x="180" y="135" font-size="12" text-anchor="middle" style="fill:var(--mu)">डेटा नाही</text>';$('cot').innerHTML='';$('cin').textContent='';return}
+  var W=360,H=270,L=6,R=46,T=8,PH=190,VT=204,VH=40,cw=(W-L-R)/cnt,
+      hi=Math.max.apply(null,a.map(function(c){return c[2]})),lo=Math.min.apply(null,a.map(function(c){return c[3]})),vm=Math.max.apply(null,a.map(function(c){return c[5]}))||1;
+  if(hi==lo){hi+=1;lo-=1}
+  var Y=function(v){return T+(hi-v)/(hi-lo)*(PH-T)},X=function(i){return L+i*cw+cw/2},s='';
+  for(var g=0;g<=4;g++){var v=lo+(hi-lo)*g/4,y=Y(v);s+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+y+'" y2="'+y+'" style="stroke:var(--bd)"/><text x="'+(W-R+3)+'" y="'+(y+3)+'" font-size="9" style="fill:var(--mu)">'+fmtP(v)+'</text>'}
+  a.forEach(function(c,i){var col=c[4]>=c[1]?'var(--g)':'var(--r)',x=X(i),bw=Math.max(1,cw*.65);
+    s+='<line x1="'+x+'" x2="'+x+'" y1="'+Y(c[2])+'" y2="'+Y(c[3])+'" style="stroke:'+col+'"/><rect x="'+(x-bw/2)+'" y="'+Math.min(Y(c[1]),Y(c[4]))+'" width="'+bw+'" height="'+Math.max(1,Math.abs(Y(c[1])-Y(c[4])))+'" style="fill:'+col+'"/>'
+     +'<rect x="'+(x-bw/2)+'" y="'+(VT+VH-c[5]/vm*VH)+'" width="'+bw+'" height="'+(c[5]/vm*VH)+'" style="fill:'+col+';opacity:.45"/>'});
+  var lc=a[cnt-1][4];
+  s+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+Y(lc)+'" y2="'+Y(lc)+'" style="stroke:var(--ac)" stroke-dasharray="3"/><rect x="'+(W-R)+'" y="'+(Y(lc)-7)+'" width="'+R+'" height="14" style="fill:var(--ac)"/><text x="'+(W-R+3)+'" y="'+(Y(lc)+3)+'" font-size="9" style="fill:#fff">'+fmtP(lc)+'</text>';
+  [0,Math.floor(cnt/2),cnt-1].forEach(function(i){s+='<text x="'+X(i)+'" y="'+(H-4)+'" font-size="9" text-anchor="'+(i==0?'start':i==cnt-1?'end':'middle')+'" style="fill:var(--mu)">'+tlab(a[i][0])+'</text>'});
+  if(CH.sel>=0&&CH.sel<cnt)s+='<line x1="'+X(CH.sel)+'" x2="'+X(CH.sel)+'" y1="'+T+'" y2="'+(VT+VH)+'" style="stroke:var(--tx)" stroke-dasharray="2"/>';
+  el.innerHTML=s;
+  var c=a[CH.sel>=0&&CH.sel<cnt?CH.sel:cnt-1],ch=c[1]?(c[4]/c[1]-1)*100:0;
+  $('cin').innerHTML='<b style="color:var(--tx)">'+tlab(c[0])+'</b> · O '+fmtP(c[1])+' H '+fmtP(c[2])+' L '+fmtP(c[3])+' C '+fmtP(c[4])+' · <span class="'+(ch>=0?'g':'r')+'">'+(ch>=0?'+':'')+ch.toFixed(2)+'%</span>'+(CH.opt?' · ≈ '+m(c[4]):'');
+  var h='<tr><th>Time</th><th>O</th><th>H</th><th>L</th><th>C</th><th>%</th></tr>';
+  a.slice(-24).reverse().forEach(function(c){var x=c[1]?(c[4]/c[1]-1)*100:0;h+='<tr><td>'+tlab(c[0])+'</td><td>'+fmtP(c[1])+'</td><td>'+fmtP(c[2])+'</td><td>'+fmtP(c[3])+'</td><td class="'+(x>=0?'g':'r')+'">'+fmtP(c[4])+'</td><td class="'+(x>=0?'g':'r')+'">'+(x>=0?'+':'')+x.toFixed(1)+'</td></tr>'});
+  $('cot').innerHTML=h;
+}
+$('cch').onclick=function(e){var a=CH.data.slice(-CH.n);if(!a.length)return;var r=$('cch').getBoundingClientRect(),x=(e.clientX-r.left)/r.width*360,cw=(360-6-46)/a.length;CH.sel=Math.max(0,Math.min(a.length-1,Math.floor((x-6)/cw)));chDraw()};
+$('cgo').onclick=chOpen;
+$('cre').onclick=function(e){if(e.target.tagName!='BUTTON')return;CH.res=e.target.dataset.v;setSeg('cre',CH.res);chOpen()};
+$('cnn').onclick=function(e){if(e.target.tagName!='BUTTON')return;CH.n=+e.target.dataset.v;setSeg('cnn',e.target.dataset.v);CH.sel=-1;chDraw()};
+$('cmk').onclick=function(e){if(e.target.tagName!='BUTTON')return;CH.mark=e.target.dataset.v=='M';setSeg('cmk',e.target.dataset.v);chOpen()};
+function csvKey(k){var a=hget(k),c='time_utc,open,high,low,close,volume\n'+a.map(function(r){return new Date(r[0]*1000).toISOString()+','+r.slice(1).join(',')}).join('\n'),el=document.createElement('a');el.href=URL.createObjectURL(new Blob([c],{type:'text/csv'}));el.download=k.slice(5).replace(/[^A-Za-z0-9_.-]/g,'_')+'.csv';document.body.appendChild(el);el.click();el.remove()}
+$('ccsv').onclick=function(){if(CH.key)csvKey(CH.key)};
+function hList(){var ks=[];try{for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(k.indexOf('btch:')==0)ks.push(k)}}catch(e){}
+  $('hlst').innerHTML=ks.map(function(k){var a=hget(k);return'<div class="jr"><div><b>'+k.slice(5).replace('|',' · ')+'</b><div class="mu">'+a.length+' कँडल्स'+(a.length?' · '+tlab(a[0][0])+' → '+tlab(a[a.length-1][0]):'')+'</div></div><button class="btn2" data-h="o" data-k="'+k+'">उघडा</button><button class="btn2" data-h="c" data-k="'+k+'">CSV</button><button class="x" data-h="d" data-k="'+k+'">×</button></div>'}).join('')||'<div class="mu">–</div>'}
+$('hlst').onclick=function(e){var h=e.target.dataset.h,k=e.target.dataset.k;if(!h)return;
+  if(h=='d'){try{localStorage.removeItem(k)}catch(x){}hList()}
+  else if(h=='c')csvKey(k);
+  else{var p=k.slice(5).split('|'),sym=p[0].replace('MARK:','');$('csy').value=sym;CH.mark=p[0].indexOf('MARK:')==0;CH.res=p[1];setSeg('cre',CH.res);setSeg('cmk',CH.mark?'M':'L');CH.key=k;CH.data=hget(k);CH.opt=/^[CP]-/.test(sym);CH.sel=-1;$('cst').textContent='🗄️ '+k.slice(5)+' · '+CH.data.length;chDraw();window.scrollTo(0,0)}};
+function chList(){
+  var e=$('cex').value,L=all.filter(function(o){return o.e==e});if(!L.length){$('cls').innerHTML='<div class="mu">–</div>';return}
+  var by={},ks=[],S=aspot||n('s');L.forEach(function(o){if(!by[o.k]){by[o.k]={};ks.push(o.k)}by[o.k][o.t]=o});ks.sort(function(a,b){return a-b});
+  var atm=ks[0],bd=1e12;ks.forEach(function(k){if(Math.abs(k-S)<bd){bd=Math.abs(k-S);atm=k}});
+  var cell=function(o){return o?'<td data-s="'+o.t+'-BTC-'+o.k+'-'+o.e+'"><b>'+m(o.mark||o.ask||o.bid)+'</b><br><small>IV '+(o.iv?(o.iv*100).toFixed(0):'–')+'% · OI '+(o.oi||'–')+'</small></td>':'<td>–</td>'};
+  var h='<table><tr><th style="text-align:center">CALL</th><th style="text-align:center">Strike</th><th style="text-align:center">PUT</th></tr>';
+  ks.forEach(function(k){h+='<tr'+(k==atm?' class="atm"':'')+'>'+cell(by[k].C)+'<td class="k">'+k+'</td>'+cell(by[k].P)+'</tr>'});
+  $('cls').innerHTML=h+'</table>';
+}
+$('cex').onchange=chList;$('cld').onclick=loadAll;
+$('cls').onclick=function(e){var td=e.target.closest('td[data-s]');if(!td)return;$('csy').value=td.dataset.s;chOpen();window.scrollTo(0,0)};
+function chInit(){if(!all.length)loadAll();else chList();if(!CH.data.length)chOpen();hList();pbRun()}
+/* ===== BTC चान्स ===== */
+function pbRun(){
+  var S=n('s'),T=Math.max(.25,n('pbh')||24),iv=(n('piv')||n('iv')||50)/100,sg=iv*Math.sqrt(T/8760),hist=hget(hkey('BTCUSD','1h')),H=Math.max(1,Math.round(T));
+  if(!(S>0))return;
+  var pend=function(L){return N((Math.log(L/S)+.5*sg*sg)/sg)},touch=function(L){var p=pend(L);return Math.min(1,2*(L<S?p:1-p))},W=[];
+  for(var i=0;i+H<hist.length;i++){var b=hist[i][4],mn=1e18,mx=-1e18;for(var j=i+1;j<=i+H;j++){mn=Math.min(mn,hist[j][3]);mx=Math.max(mx,hist[j][2])}W.push([b,mn,mx,hist[i+H][4]])}
+  var hs=function(x){if(!W.length)return null;var t=0,e=0;W.forEach(function(w){var L=w[0]*(1+x);if(x<0){if(w[1]<=L)t++;if(w[3]<=L)e++}else{if(w[2]>=L)t++;if(w[3]>=L)e++}});return[t/W.length,e/W.length,W.length]},
+      pc=function(v){return v==null?'–':(v*100).toFixed(0)+'%'},rv=null;
+  if(hist.length>30){var r=[];for(var q=1;q<hist.length;q++)r.push(Math.log(hist[q][4]/hist[q-1][4]));var mu=r.reduce(function(a,b){return a+b})/r.length;rv=Math.sqrt(r.reduce(function(a,b){return a+(b-mu)*(b-mu)},0)/r.length)*Math.sqrt(8760)}
+  var out='',cl=n('pbl');
+  if(cl>0){var x=cl/S-1,hh=hs(x);out+='<b>$'+S.toFixed(0)+' → $'+cl.toFixed(0)+' ('+(x*100).toFixed(1)+'%)</b><br>'+(x<0?'शेवटी त्याच्या खाली: ':'शेवटी त्याच्या वर: ')+'<b>'+((x<0?pend(cl):1-pend(cl))*100).toFixed(0)+'%</b> · वाटेत कधीही स्पर्श: <b>'+(touch(cl)*100).toFixed(0)+'%</b>'+(hh?' · इतिहासात स्पर्श: <b>'+pc(hh[0])+'</b> ('+hh[2]+' नमुने)':'')+'<br>'}
+  out+='IV '+(iv*100).toFixed(0)+'%'+(rv?' vs RV '+(rv*100).toFixed(0)+'% → '+(iv>rv*1.15?'IV महाग (Buy जपून)':iv<rv*.87?'IV स्वस्त (Buy साठी बरं)':'साधारण बरोबर'):' · RV साठी BTC हिस्टरी आणा');
+  $('pbo').innerHTML=out;
+  var h='<tr><th>हालचाल</th><th>BTC $</th><th>शेवटी</th><th>स्पर्श</th><th>इतिहास</th></tr>';
+  [-10,-7,-5,-4,-3,-2,-1,1,2,3,4,5,7,10].forEach(function(p){var L=S*(1+p/100),e=p<0?pend(L):1-pend(L),t=touch(L),z=hs(p/100);h+='<tr><td>'+(p>0?'+':'')+p+'%</td><td>'+L.toFixed(0)+'</td><td class="'+(p<0?'r':'g')+'">'+pc(e)+'</td><td>'+pc(t)+'</td><td>'+(z?pc(z[0]):'–')+'</td></tr>'});
+  $('pbt').innerHTML=h;
+}
+['pbh','pbl','piv'].forEach(function(i){$(i).oninput=pbRun});
+$('pbf').onclick=async function(){$('pbm').textContent='⏳ आणत आहे...';
+  try{var rows=await fetchC('BTCUSD','1h',720),a=hmerge(hkey('BTCUSD','1h'),rows);$('pbm').textContent='✅ BTC 1h सेव्ह: '+a.length+' कँडल्स';pbRun();hList()}
+  catch(err){$('pbm').textContent='❌ '+err.message}};
+
 /* ===== टॅब ===== */
-function tab(x){[1,2,3,4,5].forEach(function(i){$('t'+i).hidden=i!=x});[].forEach.call(document.querySelectorAll('nav button'),function(b){b.classList.toggle('on',b.dataset.t==x)});if(x==2&&!all.length)loadAll();if(x==5){if(!all.length)loadAll();else prRender()}if(x==3)sbInit();if(x==4)jrRender();window.scrollTo(0,0)}
+function tab(x){[1,2,3,4,5,6].forEach(function(i){$('t'+i).hidden=i!=x});[].forEach.call(document.querySelectorAll('nav button'),function(b){b.classList.toggle('on',b.dataset.t==x)});if(x==2&&!all.length)loadAll();if(x==5){if(!all.length)loadAll();else prRender()}if(x==6)chInit();if(x==3)sbInit();if(x==4)jrRender();window.scrollTo(0,0)}
 document.querySelector('nav').onclick=function(e){if(e.target.dataset.t)tab(+e.target.dataset.t)};
 
 /* ===== ॲडव्हान्स: सगळे BTC ऑप्शन ===== */
@@ -656,7 +871,7 @@ async function loadAll(){
     $('ax').innerHTML=ks.map(function(e){return'<option value="'+e+'">'+e.slice(0,2)+'-'+e.slice(2,4)+'-20'+e.slice(4)+'</option>'}).join('');
     var nx=ks.filter(function(e){return edt(e)+43200000>Date.now()})[0];if(nx)$('ax').value=nx;
     $('as').textContent='✅ '+all.length+' ऑप्शन | BTC '+aspot.toFixed(0)+' | '+new Date().toLocaleTimeString();
-    $('prx').innerHTML=$('ax').innerHTML;$('prx').value=$('ax').value;aRender();prRender();$('prm').textContent=$('as').textContent;
+    $('prx').innerHTML=$('ax').innerHTML;$('prx').value=$('ax').value;$('cex').innerHTML=$('ax').innerHTML;$('cex').value=$('ax').value;chList();aRender();prRender();$('prm').textContent=$('as').textContent;
   }catch(err){$('prm').textContent='❌ '+err.message;$('as').textContent='❌ '+err.message+' — नेट ब्लॉक असेल; फाईल फोनवर थेट उघडा'}
 }
 function aRender(){
@@ -685,7 +900,13 @@ $('at').onclick=function(e){
 
 /* ===== English / मराठी ===== */
 var EN=false,D={
-'तुमची एंट्री प्राईस (':'Your entry price (','उपलब्ध बॅलन्स (Avbl.)':'Available (Avbl.)','उपलब्ध बॅलन्स (':'Available balance (','इन्व्हेस्टमेंट / एक्सपोजर':'Investment / Exposure','एक्सपोजर (Notional)':'Exposure (Notional)','लागणारे पैसे (Req.)':'Required (Req.)','कमाल Lot (बॅलन्समध्ये)':'Max lots (within balance)','प्रीमियम (Buy = द्यावा लागतो, Sell = मिळतो)':'Premium (Buy = you pay, Sell = you receive)','नफा/तोटा ÷ इन्व्हेस्टमेंट (वरच्या परिस्थितीत)':'P&L ÷ investment (in scenario above)','बॅलन्समध्ये बसतं':'Fits in balance','बॅलन्स कमी पडतो — कमाल ':'Balance too low — max ','Sell मध्ये Req. = एक्सपोजर ÷ Leverage + प्रीमियम (तुमच्या पूर्वीच्या पोझिशनवरून जुळवलेला अंदाज). Buy मध्ये फक्त प्रीमियम. Delta चं खरं Req. थोडं वेगळं असू शकतं.':'In Sell, Req. = exposure ÷ leverage + premium (estimate matched to your earlier position). In Buy, only the premium. Delta\'s actual Req. may differ slightly.','सध्याची प्राईस (':'Current price (','प्रेडिक्शन चेन — शून्य होण्याची शक्यता':'Prediction chain — chance of expiring worthless','सगळे स्ट्राइक':'All strikes','आसपास':'Near ATM','टॉप पिक्स':'Top picks',
+'तुमची एंट्री प्राईस (':'Your entry price (','उपलब्ध बॅलन्स (Avbl.)':'Available (Avbl.)','उपलब्ध बॅलन्स (':'Available balance (','इन्व्हेस्टमेंट / एक्सपोजर':'Investment / Exposure','एक्सपोजर (Notional)':'Exposure (Notional)','लागणारे पैसे (Req.)':'Required (Req.)','कमाल Lot (बॅलन्समध्ये)':'Max lots (within balance)','प्रीमियम (Buy = द्यावा लागतो, Sell = मिळतो)':'Premium (Buy = you pay, Sell = you receive)','नफा/तोटा ÷ इन्व्हेस्टमेंट (वरच्या परिस्थितीत)':'P&L ÷ investment (in scenario above)','बॅलन्समध्ये बसतं':'Fits in balance','बॅलन्स कमी पडतो — कमाल ':'Balance too low — max ','Sell मध्ये Req. = एक्सपोजर ÷ Leverage + प्रीमियम (तुमच्या पूर्वीच्या पोझिशनवरून जुळवलेला अंदाज). Buy मध्ये फक्त प्रीमियम. Delta चं खरं Req. थोडं वेगळं असू शकतं.':'In Sell, Req. = exposure ÷ leverage + premium (estimate matched to your earlier position). In Buy, only the premium. Delta\'s actual Req. may differ slightly.','सध्याची प्राईस (':'Current price (','प्रॉपर चार्ट (OHLC)':'Proper chart (OHLC)','चार्ट उघडा':'Open chart','चार्टवर टॅप करा → त्या कँडलचा OHLC':'Tap the chart → OHLC of that candle','कँडल्स (OHLC टेबल)':'Candles (OHLC table)','ऑप्शन चेन (टॅप = चार्ट)':'Option chain (tap = chart)','BTC चान्स (प्रेडिक्शन)':'BTC chances (prediction)',
+'कितीच्या आत? (तास)':'Within? (hours)','BTC लेव्हल ($) — उदा. 57000':'BTC level ($) — e.g. 57000','सेटिंग्जमधला IV':'from settings','BTC हिस्टरी आणा (1h, 30 दिवस)':'Fetch BTC history (1h, 30 days)','सेव्ह केलेला हिस्टरी डेटा':'Saved history data',
+'चार्ट उघडला की कँडल्स आपोआप या फोनमध्ये साठतात. वेळेनुसार हिस्टरी वाढत जाते.':'Candles are saved on this phone when you open a chart. History grows over time.','हालचाल':'Move','शेवटी':'At end','स्पर्श':'Touch','इतिहास':'History',
+'शेवटी = वेळ संपताना त्या पातळीच्या पलीकडे असण्याची शक्यता. स्पर्श = वाटेत कधीही गाठण्याची शक्यता. इतिहास = सेव्ह केलेल्या BTC कँडल्समध्ये तसं किती वेळा घडलं. हे अंदाज आहेत, हमी नाही.':'At end = chance of being beyond that level when time ends. Touch = chance of reaching it at any time on the way. History = how often that happened in saved BTC candles. Estimates, not guarantees.',
+'⏳ आणत आहे...':'⏳ Fetching...','सेव्ह:':'saved:',' कँडल्स':' candles','डेटा नाही':'No data','कँडल्स मिळाल्या नाहीत':'No candles received',' — सेव्ह केलेला डेटा दाखवत आहे':' — showing saved data','उघडा':'Open','शेवटी त्याच्या खाली: ':'At end below it: ','शेवटी त्याच्या वर: ':'At end above it: ',' · वाटेत कधीही स्पर्श: ':' · touch on the way: ',' · इतिहासात स्पर्श: ':' · touched in history: ',' नमुने':' samples',
+'IV महाग (Buy जपून)':'IV rich (careful buying)','IV स्वस्त (Buy साठी बरं)':'IV cheap (ok for buying)','साधारण बरोबर':'about fair',' · RV साठी BTC हिस्टरी आणा':' · fetch BTC history for RV','जर्नलमध्ये सेव्ह':'Save to journal','पेपर ट्रेड घ्या':'Take paper trade','पेपर ट्रेड्स (लाईव्ह)':'Paper trades (live)','पेपर:':'Paper:','ओपन':'open','हाताने':'Manual','नोट':'Note',
+'खऱ्या पैशाशिवाय ट्रेड. 🟢 लाईव्ह चालू असताना टार्गेट/SL ला आपोआप क्लोज होतो.':'Trade without real money. While 🟢 Live is on, it auto-closes at target/SL.','CSV डाउनलोड (बॅकअप)':'Download CSV (backup)','किमान 2 क्लोज ट्रेड हवेत':'Need at least 2 closed trades','प्रेडिक्शन चेन — शून्य होण्याची शक्यता':'Prediction chain — chance of expiring worthless','सगळे स्ट्राइक':'All strikes','आसपास':'Near ATM','टॉप पिक्स':'Top picks',
 'प्रत्येक खान्यात: प्राईस · शून्य होण्याची शक्यता · बॅलन्समध्ये किती Lot · Breakeven साठी BTC किती %. खान्यावर टॅप = कॅल्क्युलेटरमध्ये उघडेल.':'Each cell: price · chance of going to zero · lots within balance · BTC % needed for breakeven. Tap a cell = opens in calculator.',
 'Call: सरासरी शून्य':'Call: avg zero','Put: सरासरी शून्य':'Put: avg zero','सगळे: सरासरी शून्य':'All: avg zero','1σ रेंज (≈68%)':'1σ range (≈68%)','h बाकी':'h left',
 'Buy: नफ्यात संपण्याची शक्यता जास्त + बॅलन्समध्ये बसणारे + कमी spread':'Buy: higher chance to finish in profit + fits balance + tight spread','Sell: प्रीमियम टिकण्याची शक्यता जास्त + बॅलन्समध्ये बसणारे + कमी spread':'Sell: higher chance to keep premium + fits balance + tight spread',
@@ -730,12 +951,12 @@ function applyLang(init){
   var w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT),nd;
   while(nd=w.nextNode()){if(nd._mr!==undefined){nd.nodeValue=nd._mr;nd._mr=undefined}}
   [].forEach.call(document.querySelectorAll('[placeholder]'),function(el){if(el._ph){el.setAttribute('placeholder',el._ph);el._ph=null}});
-  calc();avDraw();if(all.length)aRender();
+  calc();avDraw();if(all.length){aRender();prRender();chList()}ptRender();hList();
 }
 $('lg').onclick=function(){EN=!EN;try{localStorage.setItem('lang',EN?'en':'mr')}catch(e){}applyLang()};
 new MutationObserver(function(){if(EN)tr()}).observe(document.body,{childList:true,subtree:true,characterData:true});
 try{EN=localStorage.getItem('lang')=='en'}catch(e){}
-hlFromDate();avDraw();calc();liveOn();applyLang(true);
+loadSet();hlFromDate();avDraw();calc();liveOn();applyLang(true);
 </script>
 </body>
 </html>

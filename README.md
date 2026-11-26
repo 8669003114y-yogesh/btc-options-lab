@@ -9,6 +9,9 @@ Works offline for calculations; live data needs the page to be opened directly (
 - All-moves x time grid (-12% to +12%) with BTC USD price, sparklines, tap-a-row chart
 - Live BTC + option price, full option chain, "chance of going to zero" prediction tab
 - Strategy builder (straddle, strangle, spreads), trade journal (stored in browser localStorage)
+- Charts tab: candlestick (OHLC) charts for BTC and any option (Mark/Last, 15m/1h/4h/1d), candles saved on the device as history + CSV export
+- BTC chance ladder: probability of BTC ending below/above a level, touch probability, historical frequency, IV vs realized vol
+- Paper trading with auto TP/SL close, journal with equity curve, settings remembered
 - English / Marathi toggle
 
 ## Install as an app (PWA)
