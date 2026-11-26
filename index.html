@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BTC ऑप्शन चेन + कॅल्क्युलेटर</title>
+<style>
+:root{--bg:#091017;--card:#101a22;--card2:#172531;--tx:#eef5f6;--mu:#93a8b2;--bd:#243542;--g:#2fd39b;--r:#ff5d73;--ac:#2ec4b6;--ac2:#7c6cff;--hl:#12363a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#eaf2f4;--card:#fff;--card2:#eff6f7;--tx:#10201f;--mu:#52666b;--bd:#cfdfe3;--g:#0e9a72;--r:#d23a56;--hl:#d7f3ef}}
+*{box-sizing:border-box}
+body{margin:0;color:var(--tx);font:16px/1.4 system-ui,sans-serif;padding:0 10px 92px;max-width:520px;margin-inline:auto;background:var(--bg);min-height:100vh}
+.hdr{display:flex;justify-content:space-between;align-items:center;padding:12px 2px}
+.logo{font-size:20px;font-weight:800;background:linear-gradient(90deg,var(--ac),var(--ac2));-webkit-background-clip:text;background-clip:text;color:transparent}
+#lg{border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:20px;padding:6px 14px;font-weight:700}
+.card{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,0)),var(--card);border:1px solid var(--bd);border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:0 4px 16px rgba(0,0,0,.18)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+label{display:block;font-size:12px;color:var(--mu);margin-bottom:4px;letter-spacing:.2px}
+input,select{width:100%;padding:11px;border-radius:12px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);font-size:16px}
+input:focus,select:focus{outline:2px solid var(--ac);outline-offset:-1px}
+button{font:inherit}
+.seg,.q,.step{display:flex;gap:6px}
+.seg button,.q button{flex:1;padding:10px;border-radius:12px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);font-size:15px}
+.seg button.on,.q button.on{background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;border-color:transparent;font-weight:700}
+.q{margin-top:8px}
+.step button{width:48px;border-radius:12px;border:0;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;font-size:22px;font-weight:700}
+.step input{text-align:center;font-weight:700}
+.btn{width:100%;padding:11px;border-radius:12px;border:0;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;font-size:15px;font-weight:700}
+.btn2{padding:9px;border-radius:12px;border:1px solid var(--ac);background:none;color:var(--ac);font-size:14px}
+.res{text-align:center}
+.huge{font-size:36px;font-weight:800;margin:4px 0;letter-spacing:-.5px}
+.g{color:var(--g)}.r{color:var(--r)}.mu{color:var(--mu);font-size:13px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+td,th{padding:7px 6px;text-align:right;border-bottom:1px solid var(--bd)}
+th{color:var(--mu);font-weight:600;font-size:12px}
+th:first-child,td:first-child{text-align:left}
+#ch{max-height:360px;overflow:auto;border-radius:12px}
+#ch td{text-align:center;cursor:pointer;line-height:1.15}
+#ch td.k{background:var(--bg);font-weight:700;cursor:default}
+#ch td.sel{background:var(--hl);outline:2px solid var(--ac);outline-offset:-2px}
+#ch tr.atm td.k{color:var(--ac)}
+#ch small{font-size:11px}
+#at tr[data-i]{cursor:pointer}#at tr[data-i]:active{background:var(--hl)}
+details summary{color:var(--mu);font-size:14px;cursor:pointer;padding:2px 0}
+.row2{display:flex;justify-content:space-between;gap:8px;padding:7px 0;border-bottom:1px solid var(--bd);font-size:14px}
+.row2 b{text-align:right}
+.arow{display:grid;grid-template-columns:1fr 1fr 36px;gap:6px;margin-bottom:6px}
+.arow button{border-radius:10px;border:1px solid var(--bd);background:var(--bg);color:var(--r);font-size:18px}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.kpi{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:10px 6px;text-align:center}
+.kpi b{display:block;font-size:19px;margin:2px 0}.kpi small{color:var(--mu);font-size:11px}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;gap:8px;padding:8px 12px calc(8px + env(safe-area-inset-bottom,0px));background:var(--bg);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--bd);max-width:520px;margin-inline:auto}
+nav button{flex:1;padding:12px;border-radius:14px;border:0;background:transparent;color:var(--mu);font-weight:700}
+nav button.on{background:rgba(201,144,71,.15);color:var(--ac)}
+body{background:radial-gradient(520px 280px at 100% -4%,rgba(127,140,255,.22),transparent 70%),radial-gradient(460px 260px at -8% 18%,rgba(76,195,217,.13),transparent 70%),radial-gradient(500px 300px at 50% 110%,rgba(244,102,122,.09),transparent 70%),var(--bg);background-attachment:fixed}
+.card{background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.012)),var(--card);border-radius:18px;animation:up .4s ease both}
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.card>b:first-child{display:block;border-left:3px solid var(--ac);padding-left:9px;margin-bottom:4px}
+details.card summary{color:var(--tx);font-weight:600}
+.res{position:relative;overflow:hidden}.res::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,var(--ac),var(--ac2))}
+.huge{font-variant-numeric:tabular-nums}
+.huge.g{background:linear-gradient(90deg,#2fcf9f,#8be8c8);-webkit-background-clip:text;background-clip:text;color:transparent}
+.huge.r{background:linear-gradient(90deg,#f4667a,#ff9fad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.seg button.on,.q button.on,.btn,.step button{background:linear-gradient(135deg,var(--ac),var(--ac2));box-shadow:0 4px 14px rgba(127,140,255,.28)}
+nav button.on{background:linear-gradient(135deg,rgba(127,140,255,.3),rgba(76,195,217,.2));color:var(--tx)}
+.kpi{background:linear-gradient(160deg,rgba(127,140,255,.14),rgba(76,195,217,.04)),var(--card)}
+td,th{font-variant-numeric:tabular-nums}
+.gt td{border:1px solid var(--bd);text-align:center;font-weight:600;font-size:13px;padding:7px 3px}
+.gt th{text-align:center}.gt td:first-child{background:var(--bg);color:var(--mu)}
+body{background:var(--bg)}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;box-shadow:none;animation:none}
+.card>b:first-child{border-left:0;padding-left:0;font-size:15px}
+label{font-weight:600}
+input,select{background:var(--card2);border:1px solid var(--bd);font-weight:600}
+.seg button,.q button{background:var(--card2);border-color:var(--bd);color:var(--tx);font-weight:600}
+.seg button.on,.q button.on,.btn,.step button{background:var(--ac);color:#1b1305;box-shadow:none;border-color:var(--ac);font-weight:800}
+.btn2{color:var(--ac);border-color:var(--ac);font-weight:700}
+.res{background:var(--card2)}.res::before{height:4px}
+.huge{font-size:40px;font-weight:800}
+.huge.g,.huge.r{background:none;-webkit-background-clip:border-box;background-clip:border-box}
+.huge.g{color:var(--g)}.huge.r{color:var(--r)}
+.logo{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:var(--tx)}
+.kpi{background:var(--card2)}
+nav{background:var(--card);border-top:1px solid var(--bd)}
+nav button{font-size:13px;padding:10px 2px}
+nav button.on{background:var(--ac);color:#1b1305}
+.leg{display:grid;grid-template-columns:60px 60px 1fr 1fr 42px 28px;gap:4px;margin-bottom:6px}
+.leg select,.leg input{padding:8px 3px;font-size:14px;border-radius:10px;min-width:0}
+.leg button{border-radius:10px;border:1px solid var(--bd);background:var(--bg);color:var(--r)}
+.alb{position:sticky;top:0;z-index:20;padding:12px;border-radius:12px;margin:6px 0;font-weight:800;text-align:center}
+.alb.ok{background:var(--g);color:#05221a}.alb.bad{background:var(--r);color:#2a0710}
+.jr{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--bd)}
+.jr .x{border:0;background:none;color:var(--mu);font-size:20px}
+.jx{display:flex;gap:6px;align-items:center}.jx input{width:84px;padding:8px}
+
+.logo::before{content:"₿";display:inline-grid;place-items:center;width:30px;height:30px;border-radius:10px;background:var(--ac);color:#031a17;margin-right:8px;font-size:17px}
+.hdr{position:sticky;top:0;z-index:15;background:var(--bg);border-bottom:1px solid var(--bd);margin:0 -10px;padding:10px 12px}
+.card{border-radius:16px;box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
+.card>b:first-child::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ac);margin-right:8px}
+.seg button.on,.q button.on,.btn,.step button,nav button.on{background:var(--ac);color:#031a17;border-color:var(--ac)}
+.huge,.kpi b,td,.row2 b{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+nav{border-radius:20px 20px 0 0;gap:4px}
+.gt tr.gs td{outline:2px solid var(--ac);outline-offset:-2px}
+.gt small{color:var(--mu);font-size:10px;font-weight:600}
+#prt table{width:100%}#prt td{text-align:center;cursor:pointer;line-height:1.25;font-size:13px;padding:6px 3px}
+#prt td.k{background:var(--bg);font-weight:700;cursor:default}#prt tr.atm td.k{color:var(--ac)}
+#prt small,.pc small{color:var(--mu);font-size:11px}
+</style>
+</head>
+<body>
+<div class="hdr"><div class="logo">Option Lab</div><button id="lg">EN</button></div>
+<div id="alb" class="alb" hidden></div>
+<div id="t1">
+
+<div class="card">
+  <div class="grid">
+    <div><label>Expiry तारीख</label><input id="ed" type="date"></div>
+    <div style="display:flex;align-items:flex-end"><button id="ld" class="btn">🔄 चेन लोड करा</button></div>
+  </div>
+  <label style="margin-top:8px;display:flex;gap:6px;align-items:center"><input id="au" type="checkbox" style="width:auto"> दर 10 सेकंदाला आपोआप</label>
+  <div id="st" class="mu" style="margin-top:6px"></div>
+</div>
+
+<div class="card">
+  <div class="grid">
+    <div><label>किती तासात?</label><input id="hh" type="number" value="2" step="0.5"></div>
+    <div><label>BTC किती % गेला? (− = खाली)</label><input id="mv" type="number" value="-2" step="0.1"></div>
+  </div>
+  <div class="q" id="qb"><button data-v="-2">−2%</button><button data-v="-1">−1%</button><button data-v="0">0%</button><button data-v="1">+1%</button><button data-v="2">+2%</button></div>
+</div>
+
+<div class="card">
+  <div class="mu" style="margin-bottom:6px">📡 स्कॅनर: या हालचालीला प्रत्येक स्ट्राइकवर किती % नफा/तोटा. स्ट्राइकवर टॅप करा.</div>
+  <button id="cs" class="btn2" style="margin-bottom:8px">↕ सगळे स्ट्राइक</button>
+  <div id="ch"><div class="mu">वर "चेन लोड करा" दाबा. (किंवा खाली हाताने भरा)</div></div>
+</div>
+
+<div class="card">
+  <div class="grid">
+    <div class="seg" id="typ"><button data-v="C" class="on">Call</button><button data-v="P">Put</button></div>
+    <div class="seg" id="sd"><button data-v="B" class="on">Buy</button><button data-v="S">Sell</button></div>
+  </div>
+  <div class="grid" style="margin-top:10px">
+    <div><label>Strike</label><input id="k" type="number" value="60600"></div>
+    <div><label>तुमची एंट्री प्राईस (<span id="cu">₹</span>)</label><input id="p" type="number" value="15000" step="1"></div>
+    <div><label>BTC आता</label><input id="s" type="number" value="60420"></div>
+    <div><label>सध्याची प्राईस (<span id="cu2">₹</span>) — तुमच्या ऑप्शनची</label><input id="cp" type="number" step="0.1" placeholder="Bid"></div>
+    <div><label>Lot</label><div class="step"><button id="m">−</button><input id="l" type="number" value="1" min="1"><button id="a">+</button></div></div>
+    <div style="display:flex;align-items:flex-end"><label style="display:flex;gap:6px;align-items:center;font-size:14px;color:var(--tx);margin:0 0 12px"><input id="lc" type="checkbox" checked style="width:auto">🟢 लाईव्ह (5 से.)</label></div>
+    <div><label>Leverage (x)</label><input id="lev" type="number" value="200"></div>
+    <div><label>उपलब्ध बॅलन्स (<span id="cu3">₹</span>)</label><input id="bal" type="number" value="190"></div>
+  </div>
+  <div id="lv" class="mu" style="margin-top:4px"></div>
+  <div class="seg" id="cur" style="margin-top:10px"><button data-v="$">प्राईस $</button><button data-v="₹" class="on">प्राईस ₹</button></div>
+</div>
+
+<div class="card">
+  <b>💰 इन्व्हेस्टमेंट / एक्सपोजर</b>
+  <div style="margin-top:6px">
+    <div class="row2"><span>एक्सपोजर (Notional)</span><b id="ivx">–</b></div>
+    <div class="row2"><span>लागणारे पैसे (Req.)</span><b id="ivr">–</b></div>
+    <div class="row2"><span>उपलब्ध बॅलन्स (Avbl.)</span><b id="iva">–</b></div>
+    <div class="row2"><span>कमाल Lot (बॅलन्समध्ये)</span><b id="ivm">–</b></div>
+    <div class="row2"><span>प्रीमियम (Buy = द्यावा लागतो, Sell = मिळतो)</span><b id="ivp">–</b></div>
+    <div class="row2"><span>नफा/तोटा ÷ इन्व्हेस्टमेंट (वरच्या परिस्थितीत)</span><b id="ivo">–</b></div>
+    <div class="row2"><span>Liquidation BTC (Sell, अंदाज)</span><b id="ivq">–</b></div>
+    <div class="row2"><span>कमाल तोटा नुसार Lot</span><b id="ivk">–</b></div>
+  </div>
+  <div id="ivs" style="margin-top:6px;font-weight:600"></div>
+  <div class="q" id="lp" style="margin-top:8px"><button data-v="25">25%</button><button data-v="50">50%</button><button data-v="75">75%</button><button data-v="100">100%</button></div>
+  <div class="step" style="margin-top:8px"><button id="lm2">−</button><button id="mb" class="btn" style="flex:1">कमाल Lot भरा</button><button id="lp2">+</button></div>
+  <div class="mu" style="margin-top:6px">Sell मध्ये Req. = एक्सपोजर ÷ Leverage + प्रीमियम (तुमच्या पूर्वीच्या पोझिशनवरून जुळवलेला अंदाज). Buy मध्ये फक्त प्रीमियम. Delta चं खरं Req. थोडं वेगळं असू शकतं.</div>
+</div>
+
+<div class="card res">
+  <div class="mu">📍 आत्ता (सध्याच्या प्राईसवर)</div>
+  <div class="huge" id="npl" style="font-size:30px">–</div>
+  <div id="npp" class="mu"></div>
+  <hr style="border:0;border-top:1px solid var(--bd);margin:10px 0">
+  <div class="mu" id="hd"></div>
+  <div class="huge" id="pl">–</div>
+  <div id="pp" class="mu"></div>
+  <div id="ivn" class="mu"></div>
+  <div class="mu" id="cost" style="margin-top:6px"></div>
+  <div id="net" style="margin-top:6px;font-weight:600"></div>
+  <button id="sj" class="btn2" style="margin-top:10px;width:100%">📒 ट्रेड जर्नलमध्ये सेव्ह करा</button>
+</div>
+
+<details class="card">
+  <summary>🎯 टार्गेट / SL / बजेट / फी</summary>
+  <div class="grid" style="margin-top:8px">
+    <div><label>टार्गेट प्रॉफिट %</label><input id="tg" type="number" value="50"></div>
+    <div><label>Stoploss %</label><input id="sl" type="number" value="30"></div>
+    <div><label>फी % (notional)</label><input id="fe" type="number" value="0.03" step="0.01"></div>
+    <div><label>कमाल तोटा ₹ (प्रति ट्रेड)</label><input id="rk" type="number" value="100"></div>
+  </div>
+  <div style="margin-top:8px">
+    <div class="row2"><span>🎯 टार्गेट प्राईस</span><b id="tgp">–</b></div>
+    <div class="row2"><span>…तेव्हा BTC</span><b id="tgs">–</b></div>
+    <div class="row2"><span>🛑 SL प्राईस</span><b id="slp">–</b></div>
+    <div class="row2"><span>…तेव्हा BTC</span><b id="sls">–</b></div>
+    <div class="row2"><span>⚖️ Risk : Reward</span><b id="rr">–</b></div>
+    <div class="row2"><span>⚪ Breakeven BTC</span><b id="bes">–</b></div>
+    <div class="row2"><span>Δ Delta / ⏳ Theta प्रति तास</span><b id="gk">–</b></div>
+    <div class="row2"><span>जिंकण्याची शक्यता (expiry ला नफ्यात)</span><b id="pw">–</b></div>
+    <div class="row2"><span>टार्गेट लागण्याची शक्यता (होल्ड वेळेत)</span><b id="pt">–</b></div>
+    <div class="row2"><span>SL लागण्याची शक्यता</span><b id="ps">–</b></div>
+  </div>
+</details>
+
+<details class="card">
+  <summary>⚖️ ॲव्हरेज</summary>
+  <div id="av" style="margin-top:8px"></div>
+  <div class="q"><button id="ar" class="btn2" style="flex:1">+ ओळ</button><button id="au2" class="btn2" style="flex:1">हे वापरा ✔</button></div>
+  <div class="mu" id="ao" style="margin-top:6px"></div>
+</details>
+
+<details class="card" open>
+  <summary>📊 सगळ्या हालचाली × वेळ (Buy आणि Sell)</summary>
+  <div class="seg" id="gi" style="margin:8px 0 0"><button data-v="-10">IV −10</button><button data-v="0" class="on">IV 0</button><button data-v="10">IV +10</button></div>
+  <div class="seg" id="gm" style="margin:8px 0"><button data-v="pr" class="on">प्राईस</button><button data-v="pnl">नफा ₹</button><button data-v="pc">नफा %</button></div>
+  <div class="mu">BTC जितक्या % हलतो × जितके तास गेले = तेव्हाची ऑप्शन प्राईस. रंग = त्या बाजूचा नफा/तोटा (एंट्री = वर टाकलेली प्राईस).</div>
+  <div class="mu" style="margin-top:6px">👆 कोणत्याही ओळीवर टॅप करा → त्या BTC हालचालीचा छोटा चार्ट (वेळेनुसार).</div>
+  <div id="gd"></div>
+  <div class="g" style="margin:10px 0 4px;font-weight:600">🟢 Buy केलं तर</div>
+  <div style="overflow:auto"><table class="gt" id="tbB"></table></div>
+  <div class="r" style="margin:12px 0 4px;font-weight:600">🔴 Sell केलं तर</div>
+  <div style="overflow:auto"><table class="gt" id="tbS"></table></div>
+</details>
+
+<details class="card">
+  <summary>🔔 अलर्ट (टार्गेट / SL / BTC लेव्हल)</summary>
+  <label style="display:flex;gap:8px;align-items:center;margin:10px 0;color:var(--tx);font-size:14px"><input id="al" type="checkbox" style="width:auto">अलर्ट चालू (🟢 लाईव्ह चालू हवं)</label>
+  <div class="grid"><div><label>BTC या वर गेला तर ($)</label><input id="ab" type="number" placeholder="उदा. 61000"></div><div><label>BTC या खाली गेला तर ($)</label><input id="ae" type="number" placeholder="उदा. 59000"></div></div>
+  <div class="mu" style="margin-top:6px">टार्गेट आणि SL प्राईस वरच्या प्लॅनरमधल्या % वरून. पेज उघडं आणि स्क्रीन चालू असेल तरच वाजेल (फोनवर व्हायब्रेशन + आवाज).</div>
+</details>
+
+<details class="card" open>
+  <summary>📈 Payoff चार्ट</summary>
+  <svg id="pc" viewBox="0 0 360 200" width="100%" style="margin-top:8px"></svg>
+  <div class="mu">ठिपक्यांची रेघ = होल्ड कालावधीनंतर (अंदाज) · घट्ट रेघ = expiry ला</div>
+</details>
+
+<details class="card">
+  <summary>⚙️ सेटिंग्ज</summary>
+  <div class="grid" style="margin-top:10px">
+    <div><label>IV % (चेनवरून आपोआप)</label><input id="iv" type="number" value="50"></div>
+    <div><label>Expiry ला तास बाकी</label><input id="hl" type="number" value="4" step="0.25"></div>
+    <div><label>₹ प्रति $</label><input id="fx" type="number" value="88"></div>
+  </div>
+  <div class="mu" style="margin-top:8px">1 Lot = 0.001 BTC. आकडे Black-Scholes अंदाज आहेत; खरी किंमत वेगळी असू शकते.</div>
+</details>
+
+</div>
+<div id="t2" hidden>
+  <div class="card">
+    <div class="grid">
+      <div><label>Expiry</label><select id="ax"></select></div>
+      <div style="display:flex;align-items:flex-end"><button id="al" class="btn">🔄 सगळे लोड करा</button></div>
+    </div>
+    <div id="as" class="mu" style="margin-top:6px">सगळ्या expiry चे सगळे BTC ऑप्शन इथे दिसतील.</div>
+  </div>
+  <div class="kpis" id="ak"></div>
+  <div class="card">
+    <div class="seg" id="af"><button data-v="A" class="on">सगळे</button><button data-v="C">Call</button><button data-v="P">Put</button></div>
+    <div class="q" id="aso"><button data-v="oi" class="on">OI</button><button data-v="vol">Vol</button><button data-v="iv">IV</button><button data-v="d">Δ</button></div>
+    <div class="mu" style="margin:8px 0 2px">ओळीवर टॅप करा → कॅल्क्युलेटरमध्ये उघडेल</div>
+    <div style="overflow:auto"><table id="at"></table></div>
+  </div>
+</div>
+<div id="t5" hidden>
+  <div class="card">
+    <b>🔮 प्रेडिक्शन चेन — शून्य होण्याची शक्यता</b>
+    <div class="grid" style="margin-top:8px">
+      <div><label>Expiry</label><select id="prx"></select></div>
+      <div style="display:flex;align-items:flex-end"><button id="prl" class="btn">🔄 सगळे लोड करा</button></div>
+    </div>
+    <div class="grid" style="margin-top:10px">
+      <div class="seg" id="prs"><button data-v="B" class="on">Buy</button><button data-v="S">Sell</button></div>
+      <div class="seg" id="prw"><button data-v="A" class="on">सगळे स्ट्राइक</button><button data-v="N">आसपास</button></div>
+    </div>
+    <div id="prm" class="mu" style="margin-top:6px"></div>
+  </div>
+  <div class="kpis" id="prk"></div>
+  <div class="card"><b>⭐ टॉप पिक्स</b><div class="mu" id="prh" style="margin:2px 0 6px"></div><div id="prp"></div></div>
+  <div class="card"><div class="mu" style="margin-bottom:6px">प्रत्येक खान्यात: प्राईस · शून्य होण्याची शक्यता · बॅलन्समध्ये किती Lot · Breakeven साठी BTC किती %. खान्यावर टॅप = कॅल्क्युलेटरमध्ये उघडेल.</div><div id="prt" style="max-height:520px;overflow:auto"></div></div>
+</div>
+<div id="t3" hidden>
+  <div class="card">
+    <b>🧩 Strategy बिल्डर</b>
+    <div class="q" id="spre"><button data-v="st">Straddle</button><button data-v="sg">Strangle</button><button data-v="bc">Bull Call</button><button data-v="bp">Bear Put</button></div>
+    <div id="slg" style="margin-top:10px"></div>
+    <button id="sadd" class="btn2" style="width:100%">+ Leg</button>
+    <div class="mu" style="margin-top:6px">किंमत: चेन लोड असेल तर Ask/Bid, नाहीतर मॉडेल अंदाज. बदलता येते.</div>
+  </div>
+  <div class="kpis" id="sk"></div>
+  <div class="card"><svg id="sc" viewBox="0 0 360 220" width="100%"></svg></div>
+</div>
+<div id="t4" hidden>
+  <div class="kpis" id="js"></div>
+  <div class="card">
+    <b>📒 ट्रेड जर्नल</b>
+    <div class="mu" style="margin:4px 0 8px">कॅल्क्युलेटरमधून "सेव्ह करा" दाबा. नंतर एक्झिट प्राईस टाकून क्लोज करा. डेटा याच फोनमध्ये साठवला जातो.</div>
+    <div id="jl"></div>
+  </div>
+</div>
+<nav><button data-t="1" class="on">🧮 Calc</button><button data-t="2">🔬 Chain</button><button data-t="5">🔮 Predict</button><button data-t="3">🧩 Strategy</button><button data-t="4">📒 Journal</button></nav>
+<script>
+var $=function(i){return document.getElementById(i)},typ='C',sd='B',cur='₹',LOT=0.001,chain={},strikes=[],timer=null,avr=[[800,1],[600,1]];
+function n(i){return parseFloat($(i).value)||0}
+function fxr(){return n('fx')||1}function toU(x){return cur=='₹'?x/fxr():x}function frU(x){return cur=='₹'?x*fxr():x}
+function pv(x){var v=frU(x);return v>=100?v.toFixed(0):v.toFixed(1)}function m(x){return(cur=='₹'?'₹':'$')+pv(x)}
+function seg(id,cb){var el=$(id);el.onclick=function(e){if(e.target.tagName!='BUTTON')return;[].forEach.call(el.children,function(b){b.classList.remove('on')});e.target.classList.add('on');cb(e.target.dataset.v);calc()}}
+function setSeg(id,v){[].forEach.call($(id).children,function(b){b.classList.toggle('on',b.dataset.v==v)})}
+seg('typ',function(v){typ=v;tick()});seg('sd',function(v){sd=v;tick()});seg('cur',function(v){if(v!=cur){var f=fxr();['p','cp','bal'].forEach(function(i){if(n(i)>0)$(i).value=v=='₹'?(n(i)*f).toFixed(1):(n(i)/f).toFixed(2)})}cur=v;$('cu').textContent=v;$('cu2').textContent=v;$('cu3').textContent=v;if(all.length)aRender()});
+$('qb').onclick=function(e){if(e.target.tagName=='BUTTON'){$('mv').value=e.target.dataset.v;calc()}};
+$('m').onclick=function(){$('l').value=Math.max(1,n('l')-1);calc()};
+$('a').onclick=function(){$('l').value=n('l')+1;calc()};
+['k','p','s','l','hh','mv','iv','hl','fx','tg','sl','fe','lev','bal','rk'].forEach(function(i){$(i).oninput=calc});
+
+function N(x){var t=1/(1+0.2316419*Math.abs(x)),d=0.3989423*Math.exp(-x*x/2),q=d*t*(0.3193815+t*(-0.3565638+t*(1.781478+t*(-1.821256+t*1.330274))));return x>0?1-q:q}
+function bs(S,K,iv,h,c){if(h<=0.001||iv<=0)return c?Math.max(S-K,0):Math.max(K-S,0);var sg=iv*Math.sqrt(h/8760),d1=(Math.log(S/K)+0.5*sg*sg)/sg,d2=d1-sg;return c?S*N(d1)-K*N(d2):K*N(-d2)-S*N(-d1)}
+function solve(t,K,iv,h,c,spot){var lo=spot*0.85,hi=spot*1.15,f=function(S){return bs(S,K,iv,h,c)-t},a=f(lo),b=f(hi);if(a*b>0)return null;for(var i=0;i<60;i++){var m=(lo+hi)/2,v=f(m);if((v<0)==(a<0)){lo=m;a=v}else hi=m}return(lo+hi)/2}
+function impIV(t,K,S,h,c){var lo=0.01,hi=5;if(bs(S,K,lo,h,c)>t||bs(S,K,hi,h,c)<t)return null;for(var i=0;i<50;i++){var m=(lo+hi)/2;if(bs(S,K,m,h,c)<t)lo=m;else hi=m}return(lo+hi)/2}
+function P(){var fx=n('fx')||1,hl=n('hl'),iv=n('iv')/100,cp=toU(n('cp')),c=typ=='C',cal=null;if(cp>0&&hl>0.01){cal=impIV(cp,n('k'),n('s'),hl,c);if(cal)iv=cal}return{K:n('k'),S:n('s'),fx:fx,iv:iv,cal:cal,cp:cp,hl:hl,hh:Math.min(n('hh'),hl),lots:Math.max(1,n('l')),c:c,B:sd=='B',p:toU(n('p')),mv:n('mv')}}
+
+function calc(){
+  var q=P(),rem=q.hl-q.hh;
+  if(!(q.S>0&&q.K>0))return;
+  function out(m){var pr=bs(q.S*(1+m/100),q.K,q.iv,rem,q.c),d=q.B?pr-q.p:q.p-pr;return{pr:pr,d:d,pc:q.p?d/q.p*100:0,usd:d*LOT*q.lots,inr:d*LOT*q.lots*q.fx}}
+  var o=out(q.mv),k=o.d>=0?'g':'r';
+  $('hd').textContent='🔮 '+(q.B?'Buy ':'Sell ')+q.K+' '+(q.c?'Call':'Put')+' × '+q.lots+' Lot — BTC '+(q.mv>0?'+':'')+q.mv+'% गेला तर ('+q.hh+' तासात)';
+  if(q.cp>0){var dn=q.B?q.cp-q.p:q.p-q.cp,un=dn*LOT*q.lots*q.fx,pcn=q.p?dn/q.p*100:0;$('npl').className='huge '+(dn>=0?'g':'r');$('npl').textContent=(un>=0?'+':'−')+'₹'+Math.abs(un).toFixed(1);$('npp').textContent='एंट्री '+m(q.p)+' → आता '+m(q.cp)+' ('+(pcn>=0?'+':'')+pcn.toFixed(0)+'%)'}else{$('npl').className='huge';$('npl').textContent='–';$('npp').textContent='सध्याची प्राईस भरा किंवा 🟢 लाईव्ह चालू करा'}
+  $('ivn').textContent=q.cal?'IV '+(q.cal*100).toFixed(1)+'% वापरला (सध्याच्या प्राईसवरून जुळवला)':'IV '+(q.iv*100).toFixed(1)+'% वापरला (सेटिंग्जमधला)';
+  $('pl').className='huge '+k;$('pl').textContent=(o.inr>=0?'+':'−')+'₹'+Math.abs(o.inr).toFixed(1);
+  $('pp').textContent='प्राईस '+m(q.p)+' → '+m(o.pr)+'  ('+(o.pc>=0?'+':'')+o.pc.toFixed(0)+'%)';
+  var lev=Math.max(1,n('lev')),mk=q.cp>0?q.cp:q.p,nt=q.S*LOT*q.lots,prem=q.p*LOT*q.lots,
+      per=q.B?q.p*LOT:q.S*LOT/lev+mk*LOT,req=per*q.lots,bal=toU(n('bal')),mxl=per>0?Math.floor(bal/per):0;
+  $('ivx').textContent=m(nt)+' ('+(LOT*q.lots).toFixed(3)+' BTC)';$('ivr').textContent=m(req);$('iva').textContent=m(bal);$('ivm').textContent=mxl+' Lot';
+  $('ivp').textContent=(q.B?'−':'+')+m(prem);
+  var roi=req>0?o.usd/req*100:0;$('ivo').innerHTML=req>0?'<span class="'+(roi>=0?'g':'r')+'">'+(roi>=0?'+':'')+roi.toFixed(0)+'%</span>':'–';
+  $('ivs').textContent=bal>=req?'✅ बॅलन्समध्ये बसतं':'⚠️ बॅलन्स कमी पडतो — कमाल '+mxl+' Lot';$('ivs').className=bal>=req?'g':'r';
+  var slp0=q.B?q.p*(1-n('sl')/100):q.p*(1+n('sl')/100),perr=Math.abs(slp0-q.p)*LOT,rl=perr>0?Math.floor(n('rk')/q.fx/perr):0;
+  $('ivk').textContent=rl+' Lot ('+n('sl')+'% SL वर)';
+  if(q.B)$('ivq').textContent='लागू नाही (Buy: जास्तीत जास्त तोटा = प्रीमियम)';
+  else{var xl=solve(q.p+req/(LOT*q.lots),q.K,q.iv,q.hl,q.c,q.S);$('ivq').textContent=xl?'$'+xl.toFixed(0)+' ('+((xl/q.S-1)*100).toFixed(1)+'%)':'खूप दूर'}
+  var fee=2*Math.min(n('fe')/100*q.S*LOT*q.lots,0.1*q.p*LOT*q.lots)*1.18,net=o.usd-fee;
+  $('net').innerHTML='फी −₹'+(fee*q.fx).toFixed(1)+' → नेट: <span class="'+(net>=0?'g':'r')+'">'+(net>=0?'+':'−')+'₹'+Math.abs(net*q.fx).toFixed(1)+'</span>';
+  grid(q);
+  extra(q,rem);probs(q,rem);alerts(q);renderChain(q,rem);payoff(q,rem);
+}
+var gm='pr',gv=0;
+var gsel=null;
+function spark(a){var mn=Math.min.apply(null,a),mx=Math.max.apply(null,a);if(mx-mn<1e-9){mx+=1;mn-=1}var p=a.map(function(v,i){return(i?'L':'M')+(2+i*(56/Math.max(1,a.length-1))).toFixed(1)+' '+(20-(v-mn)/(mx-mn)*18).toFixed(1)}).join('');return'<svg width="60" height="22" viewBox="0 0 60 22"><path d="'+p+'" fill="none" stroke-width="2" style="stroke:var(--'+(a[a.length-1]>=a[0]?'g':'r')+')"/></svg>'}
+function grid(q){
+  var base=[1,2,4,8,12],cols=base.filter(function(h){return h<=q.hl});
+  if(!cols.length)cols=[q.hl];else if(cols[cols.length-1]<q.hl&&cols.length<5)cols.push(q.hl);
+  cols=cols.map(function(h){return Math.round(h*100)/100});
+  var rows=[-12,-10,-8,-6,-4,-3,-2,-1,0,1,2,3,4,6,8,10,12],f=q.fx*LOT*q.lots,iv=Math.max(.05,q.iv+gv/100);
+  [['B','tbB'],['S','tbS']].forEach(function(z){
+    var isB=z[0]=='B',h='<tr><th>BTC</th>'+cols.map(function(t){return'<th>'+t+'h</th>'}).join('')+'<th>📈</th></tr>';
+    rows.forEach(function(mv){
+      var S2=q.S*(1+mv/100),sp=[];
+      h+='<tr data-mv="'+mv+'"'+(gsel===mv?' class="gs"':'')+'><td>'+(mv>0?'+':'')+mv+'%<br><small>$'+S2.toFixed(0)+'</small></td>';
+      cols.forEach(function(t){
+        var pr=bs(S2,q.K,iv,q.hl-t,q.c),d=isB?pr-q.p:q.p-pr,pc=q.p?d/q.p:0,al=Math.min(.6,.12+Math.abs(pc)*.45),
+            bg=d>=0?'rgba(47,211,155,'+al+')':'rgba(255,93,115,'+al+')',
+            tx=gm=='pr'?pv(pr):gm=='pnl'?(d*f>=0?'+':'−')+Math.abs(d*f).toFixed(0):(pc>=0?'+':'')+(pc*100).toFixed(0)+'%';
+        sp.push(d*f);h+='<td style="background:'+bg+'">'+tx+'</td>'});
+      h+='<td>'+spark(sp)+'</td></tr>'});
+    $(z[1]).innerHTML=h});
+  gDetail(q,iv);
+}
+function gDetail(q,iv){
+  var el=$('gd');if(gsel==null){el.innerHTML='';return}
+  var S2=q.S*(1+gsel/100),N2=24,f=q.fx*LOT*q.lots,A=[],B=[],mn=1e12,mx=-1e12;
+  for(var i=0;i<=N2;i++){var t=q.hl*i/N2,pr=bs(S2,q.K,iv,q.hl-t,q.c),a=(pr-q.p)*f,b=(q.p-pr)*f;A.push([t,a]);B.push([t,b]);mn=Math.min(mn,a,b);mx=Math.max(mx,a,b)}
+  if(mx-mn<1){mx+=1;mn-=1}
+  var W=360,H=170,L=44,R=8,T=10,Bt=22,X=function(t){return L+t/Math.max(q.hl,.01)*(W-L-R)},Y=function(v){return T+(mx-v)/(mx-mn)*(H-T-Bt)},
+      path=function(a){return a.map(function(p,i){return(i?'L':'M')+X(p[0]).toFixed(1)+' '+Y(p[1]).toFixed(1)}).join('')},
+      tx=function(x,y,t,a){return'<text x="'+x+'" y="'+y+'" font-size="9" text-anchor="'+(a||'start')+'" style="fill:var(--mu)">'+t+'</text>'};
+  el.innerHTML='<div class="mu" style="margin:8px 0 2px"><b style="color:var(--tx)">🔍 BTC '+(gsel>0?'+':'')+gsel+'% ($'+S2.toFixed(0)+')</b> — वेळेनुसार P&L ₹ · <span class="g">Buy</span> / <span class="r">Sell</span></div><svg viewBox="0 0 360 170" width="100%">'
+   +'<line x1="'+L+'" x2="'+(W-R)+'" y1="'+Y(0)+'" y2="'+Y(0)+'" style="stroke:var(--mu)" stroke-dasharray="3"/><path d="'+path(A)+'" fill="none" stroke-width="2.4" style="stroke:var(--g)"/><path d="'+path(B)+'" fill="none" stroke-width="2.4" style="stroke:var(--r)"/>'
+   +tx(2,T+8,'₹'+mx.toFixed(0))+tx(2,H-Bt,'₹'+mn.toFixed(0))+tx(L,H-6,'0h')+tx(W-R,H-6,q.hl.toFixed(1)+'h','end')+'</svg>';
+}
+function gTap(e){var tr=e.target.closest('tr[data-mv]');if(!tr)return;var v=parseFloat(tr.dataset.mv);gsel=gsel===v?null:v;calc()}
+$('tbB').onclick=gTap;$('tbS').onclick=gTap;
+$('gi').onclick=function(e){if(e.target.tagName!='BUTTON')return;gv=+e.target.dataset.v;setSeg('gi',e.target.dataset.v);calc()};
+$('gm').onclick=function(e){if(e.target.tagName!='BUTTON')return;gm=e.target.dataset.v;setSeg('gm',gm);calc()};
+function payoff(q,rem){
+  var K=q.K,lo=Math.min(q.S,K)*0.94,hi=Math.max(q.S,K)*1.06,N=50,f=q.fx*LOT*q.lots,A=[],B=[],mn=1e12,mx=-1e12;
+  for(var i=0;i<=N;i++){var S=lo+(hi-lo)*i/N,e=q.c?Math.max(S-K,0):Math.max(K-S,0),v=bs(S,K,q.iv,rem,q.c),a=(q.B?e-q.p:q.p-e)*f,b=(q.B?v-q.p:q.p-v)*f;A.push([S,a]);B.push([S,b]);mn=Math.min(mn,a,b);mx=Math.max(mx,a,b)}
+  if(mx-mn<1){mx+=1;mn-=1}
+  var W=360,H=200,L=46,R=8,T=10,Bt=22,X=function(s){return L+(s-lo)/(hi-lo)*(W-L-R)},Y=function(v){return T+(mx-v)/(mx-mn)*(H-T-Bt)},
+      path=function(a){return a.map(function(p,i){return(i?'L':'M')+X(p[0]).toFixed(1)+' '+Y(p[1]).toFixed(1)}).join('')},y0=Y(0),tx=function(x,y,t,a,c){return'<text x="'+x+'" y="'+y+'" font-size="9" text-anchor="'+(a||'start')+'" style="fill:var(--'+(c||'mu')+')">'+t+'</text>'};
+  var s='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+y0+'" y2="'+y0+'" style="stroke:var(--mu)" stroke-dasharray="3"/>'
+   +'<path d="'+path(B)+'" fill="none" style="stroke:var(--mu)" stroke-width="1.6" stroke-dasharray="4 3"/><path d="'+path(A)+'" fill="none" style="stroke:var(--ac)" stroke-width="2.4"/>'
+   +'<line x1="'+X(q.S)+'" x2="'+X(q.S)+'" y1="'+T+'" y2="'+(H-Bt)+'" style="stroke:var(--g)" stroke-dasharray="2"/>'+tx(X(q.S),T+9,'BTC','middle','g')
+   +tx(2,T+8,'₹'+mx.toFixed(0))+tx(2,H-Bt,'₹'+mn.toFixed(0))+tx(L,H-6,lo.toFixed(0))+tx(W-R,H-6,hi.toFixed(0),'end');
+  $('pc').innerHTML=s;
+}
+function extra(q,rem){
+  var tp=q.B?q.p*(1+n('tg')/100):q.p*(1-n('tg')/100),sp=q.B?q.p*(1-n('sl')/100):q.p*(1+n('sl')/100);
+  var lv=function(x){return x?'$'+x.toFixed(0)+' ('+((x/q.S-1)*100).toFixed(2)+'%)':'शक्य नाही'};
+  $('tgp').textContent=m(tp)+' ≈ +₹'+(Math.abs(tp-q.p)*LOT*q.lots*q.fx).toFixed(1);
+  $('slp').textContent=m(sp)+' ≈ −₹'+(Math.abs(sp-q.p)*LOT*q.lots*q.fx).toFixed(1);
+  $('tgs').textContent=lv(solve(tp,q.K,q.iv,rem,q.c,q.S));$('sls').textContent=lv(solve(sp,q.K,q.iv,rem,q.c,q.S));$('bes').textContent=lv(solve(q.p,q.K,q.iv,rem,q.c,q.S));
+  var g=Math.abs(tp-q.p),l=Math.abs(sp-q.p);$('rr').textContent=l?'1 : '+(g/l).toFixed(2):'–';
+  var sg=q.iv*Math.sqrt(Math.max(q.hl,0.01)/8760),d1=(Math.log(q.S/q.K)+0.5*sg*sg)/sg,dl=q.c?N(d1):N(d1)-1,dt=Math.min(1,q.hl),th=bs(q.S,q.K,q.iv,q.hl,q.c)-bs(q.S,q.K,q.iv,q.hl-dt,q.c);
+  if(!q.B){dl=-dl;th=-th}
+  $('gk').textContent=dl.toFixed(2)+' / '+(th>=0?'+':'−')+'₹'+Math.abs(th*LOT*q.lots*q.fx).toFixed(2);
+}
+function maxLots(){var q=P(),lev=Math.max(1,n('lev')),mk=q.cp>0?q.cp:q.p,per=q.B?q.p*LOT:q.S*LOT/lev+mk*LOT;return per>0?Math.floor(toU(n('bal'))/per):0}
+$('mb').onclick=function(){$('l').value=Math.max(1,maxLots());calc()};
+$('lp').onclick=function(e){var v=+e.target.dataset.v;if(!v)return;$('l').value=Math.max(1,Math.floor(maxLots()*v/100));calc()};
+$('lm2').onclick=function(){$('l').value=Math.max(1,n('l')-1);calc()};
+$('lp2').onclick=function(){$('l').value=n('l')+1;calc()};
+
+/* ===== चेन ===== */
+function fp(x){return x>=100?x.toFixed(0):x.toFixed(1)}
+function renderChain(q,rem){
+  if(!strikes.length)return;
+  var i0=0,best=1e12;strikes.forEach(function(k,i){if(Math.abs(k-q.S)<best){best=Math.abs(k-q.S);i0=i}});
+  var from=chAll?0:Math.max(0,i0-7),to=chAll?strikes.length:Math.min(strikes.length,i0+8),h='<table><tr><th style="text-align:center">CALL</th><th style="text-align:center">Strike</th><th style="text-align:center">PUT</th></tr>';
+  for(var i=from;i<to;i++){var k=strikes[i];h+='<tr'+(i==i0?' class="atm"':'')+'>'+cell(k,'C',q,rem)+'<td class="k">'+k+'</td>'+cell(k,'P',q,rem)+'</tr>'}
+  var y=$('ch').scrollTop;$('ch').innerHTML=h+'</table>';$('ch').scrollTop=y;
+}
+function cell(k,t,q,rem){
+  var o=chain[k]&&chain[k][t];if(!o)return'<td>–</td>';
+  var iv=o.iv||q.iv,v=bs(q.S*(1+q.mv/100),k,iv,rem,t=='C'),pr=q.B?(o.ask||o.mark):(o.bid||o.mark);
+  if(!pr)return'<td>–</td>';
+  var pc=(q.B?v-pr:pr-v)/pr*100,sel=(k==q.K&&typ==t);
+  return'<td data-k="'+k+'" data-t="'+t+'"'+(sel?' class="sel"':'')+'>'+m(pr)+'<br><small class="'+(pc>=0?'g':'r')+'">'+(pc>=0?'+':'')+pc.toFixed(0)+'%</small></td>';
+}
+$('ch').onclick=function(e){
+  var td=e.target.closest('td[data-t]');if(!td)return;
+  var k=td.dataset.k,t=td.dataset.t,o=chain[k][t];
+  typ=t;setSeg('typ',t);$('k').value=k;$('p').value=pv((sd=='B'?o.ask:o.bid)||o.mark||0);if(o.iv)$('iv').value=(o.iv*100).toFixed(1);$('cp').value=pv((sd=='B'?o.bid:o.ask)||o.mark||0);
+  calc();
+};
+function num(x){var v=parseFloat(x);return isFinite(v)?v:0}
+async function load(){
+  var d=$('ed').value;if(!d){$('st').textContent='आधी expiry तारीख निवडा.';return}
+  var p=d.split('-'),url='https://api.india.delta.exchange/v2/tickers?contract_types=call_options,put_options&underlying_asset_symbols=BTC&expiry_date='+p[2]+'-'+p[1]+'-'+p[0];
+  $('st').textContent='⏳ चेन आणत आहे...';
+  try{
+    var r=await fetch(url),j=await r.json(),arr=j.result;
+    if(!arr||!arr.length){var r2=await fetch(url.split('&expiry_date=')[0]),j2=await r2.json(),ex=p[2]+p[1]+p[0].slice(2);arr=(j2.result||[]).filter(function(t){return(t.symbol||'').split('-')[3]==ex})}
+    if(!arr||!arr.length)throw new Error('या तारखेला BTC ऑप्शन सापडले नाहीत (तारीख तपासा)');
+    chain={};var spot=0;
+    arr.forEach(function(t){
+      var sy=(t.symbol||'').split('-');if(sy.length<4)return;
+      var typc=sy[0],k=parseInt(sy[2]);if(!k)return;
+      var qu=t.quotes||{},iv=num(qu.mark_iv);if(iv>5)iv=iv/100;
+      (chain[k]=chain[k]||{})[typc]={mark:num(t.mark_price),bid:num(qu.best_bid),ask:num(qu.best_ask),iv:iv};
+      if(!spot)spot=num(t.spot_price);
+    });
+    strikes=Object.keys(chain).map(Number).sort(function(a,b){return a-b});
+    if(!strikes.length)throw new Error('डेटा वाचता आला नाही. पहिला रेकॉर्ड: '+JSON.stringify(arr[0]).slice(0,200));
+    if(spot)$('s').value=spot.toFixed(1);
+    var ms=Date.UTC(+p[0],+p[1]-1,+p[2],12,0)-Date.now();if(ms>0)$('hl').value=(ms/3600000).toFixed(2);
+    $('st').textContent='✅ '+strikes.length+' स्ट्राइक | BTC '+spot.toFixed(0)+' | '+new Date().toLocaleTimeString();
+    calc();
+  }catch(err){
+    $('st').textContent='❌ '+err.message+' — Claude च्या पेजवर नेट ब्लॉक असतं. फाईल डाउनलोड करून फोनवर थेट उघडा; तोपर्यंत हाताने भरा.';
+  }
+}
+$('ld').onclick=load;
+$('au').onchange=function(){clearInterval(timer);if($('au').checked){load();timer=setInterval(load,10000)}};
+
+/* ===== ॲव्हरेज ===== */
+function avDraw(){var h='';avr.forEach(function(r,i){h+='<div class="arow"><input type="number" step="0.1" value="'+r[0]+'" data-i="'+i+'" data-f="0" placeholder="प्राईस"><input type="number" value="'+r[1]+'" data-i="'+i+'" data-f="1" placeholder="Lot"><button data-d="'+i+'">×</button></div>'});$('av').innerHTML=h;avCalc()}
+function avCalc(){var t=0,q=0;avr.forEach(function(r){t+=(parseFloat(r[0])||0)*(parseFloat(r[1])||0);q+=parseFloat(r[1])||0});var a=q?t/q:0;$('ao').textContent='ॲव्हरेज: '+a.toFixed(2)+' | एकूण '+q+' Lot';return[a,q]}
+$('av').oninput=function(e){var i=e.target.dataset.i;if(i==null)return;avr[i][e.target.dataset.f]=e.target.value;avCalc()};
+$('av').onclick=function(e){if(e.target.dataset.d!=null){avr.splice(e.target.dataset.d,1);avDraw()}};
+$('ar').onclick=function(){avr.push([n('p'),1]);avDraw()};
+$('au2').onclick=function(){var r=avCalc();if(r[1]){$('p').value=r[0].toFixed(2);$('l').value=r[1];calc()}};
+
+(function(){var t=new Date();if(t.getUTCHours()>=12)t=new Date(t.getTime()+864e5);var z=function(x){return('0'+x).slice(-2)};$('ed').value=t.getUTCFullYear()+'-'+z(t.getUTCMonth()+1)+'-'+z(t.getUTCDate())})();
+
+/* ===== लाईव्ह ===== */
+var BASE='https://api.india.delta.exchange/v2/tickers/',lt=null;
+function hlFromDate(){var d=$('ed').value;if(!d)return;var p=d.split('-'),ms=Date.UTC(+p[0],+p[1]-1,+p[2],12,0)-Date.now();$('hl').value=ms>0?(ms/3600000).toFixed(2):0}
+async function tick(){
+  if(!$('lc').checked)return;
+  var d=$('ed').value;if(d)hlFromDate();
+  try{
+    var js=function(r){return r.json()},reqs=[fetch(BASE+'BTCUSD').then(js)];
+    if(d){var p=d.split('-');reqs.push(fetch(BASE+(typ=='C'?'C':'P')+'-BTC-'+n('k')+'-'+p[2]+p[1]+p[0].slice(2)).then(js))}
+    var rs=await Promise.all(reqs),b=rs[0].result||{},sp=num(b.spot_price)||num(b.mark_price);
+    if(!sp)throw new Error('BTC किंमत मिळाली नाही');
+    $('s').value=sp.toFixed(1);var msg='🟢 BTC '+sp.toFixed(0);
+    if(rs[1]&&rs[1].result){var o=rs[1].result,qu=o.quotes||{},v=(sd=='B'?num(qu.best_bid):num(qu.best_ask))||num(o.mark_price);if(v){$('cp').value=pv(v);msg+=' | ऑप्शन '+m(v)}}
+    else if(d)msg+=' | ऑप्शन सापडला नाही (strike/तारीख तपासा)';
+    $('lv').textContent=msg+' | '+new Date().toLocaleTimeString();calc();
+  }catch(err){$('lv').textContent='🔴 लाईव्ह नाही: '+err.message+' — फाईल फोनवर थेट उघडा, किंवा हाताने भरा'}
+}
+function liveOn(){clearInterval(lt);if($('lc').checked){tick();lt=setInterval(tick,5000)}else $('lv').textContent='लाईव्ह बंद — हाताने भरलेले आकडे वापरले जातात'}
+$('lc').onchange=liveOn;
+$('ed').onchange=function(){hlFromDate();calc();tick()};
+$('k').addEventListener('change',tick);
+['s','cp'].forEach(function(i){$(i).addEventListener('input',function(){if($('lc').checked){$('lc').checked=false;liveOn()}})});
+
+
+/* ===== शक्यता ===== */
+function probs(q,rem){
+  if(!(q.iv>0))return;
+  var T=Math.max(q.hl,.01),s2=q.iv*Math.sqrt(T/8760),up=function(L){return L>0?N((Math.log(q.S/L)-.5*s2*s2)/s2):1},
+      be=q.c?q.K+q.p:q.K-q.p,pu=up(be),w=q.c?(q.B?pu:1-pu):(q.B?1-pu:pu),
+      tpP=q.B?q.p*(1+n('tg')/100):q.p*(1-n('tg')/100),spP=q.B?q.p*(1-n('sl')/100):q.p*(1+n('sl')/100),
+      hs=q.iv*Math.sqrt(Math.max(q.hh,.01)/8760),
+      tch=function(x){var L=solve(x,q.K,q.iv,rem,q.c,q.S);return L?Math.min(1,2*(1-N(Math.abs(Math.log(L/q.S))/hs))):null},a=tch(tpP),b=tch(spP);
+  $('pw').textContent=(w*100).toFixed(0)+'%';$('pt').textContent=a==null?'–':(a*100).toFixed(0)+'%';$('ps').textContent=b==null?'–':(b*100).toFixed(0)+'%';
+}
+/* ===== अलर्ट ===== */
+var ac=null,fired={},akey='';
+function beep(){try{ac=ac||new(window.AudioContext||window.webkitAudioContext)();if(ac.resume)ac.resume();[0,.25,.5].forEach(function(t){var o=ac.createOscillator(),g=ac.createGain();o.frequency.value=880;g.gain.value=.2;o.connect(g);g.connect(ac.destination);o.start(ac.currentTime+t);o.stop(ac.currentTime+t+.15)})}catch(e){}}
+function fire(id,msg,good){if(fired[id])return;fired[id]=1;var b=$('alb');b.textContent=msg;b.className='alb '+(good?'ok':'bad');b.hidden=false;try{navigator.vibrate([300,150,300,150,300])}catch(e){}beep()}
+$('alb').onclick=function(){$('alb').hidden=true};
+$('al').onchange=function(){fired={};if($('al').checked){try{ac=ac||new(window.AudioContext||window.webkitAudioContext)();if(ac.resume)ac.resume()}catch(e){}}};
+function alerts(q){
+  if(!$('al').checked)return;
+  var key=typ+q.K+sd+n('tg')+n('sl');if(key!=akey){akey=key;fired={}}
+  var tp=q.B?q.p*(1+n('tg')/100):q.p*(1-n('tg')/100),sp=q.B?q.p*(1-n('sl')/100):q.p*(1+n('sl')/100);
+  if(q.cp>0){
+    if(q.B?q.cp>=tp:q.cp<=tp)fire('t','🎯 टार्गेट लागला! '+m(q.cp),1);
+    if(q.B?q.cp<=sp:q.cp>=sp)fire('s','🛑 SL लागला! '+m(q.cp),0);
+  }
+  var ab=n('ab'),ae=n('ae');
+  if(ab&&q.S>=ab)fire('ab','⬆️ BTC '+q.S.toFixed(0)+' ≥ '+ab,1);
+  if(ae&&q.S<=ae)fire('ae','⬇️ BTC '+q.S.toFixed(0)+' ≤ '+ae,0);
+}
+/* ===== जर्नल ===== */
+var J=[];try{J=JSON.parse(localStorage.getItem('btcj')||'[]')}catch(e){}
+function jsave(){try{localStorage.setItem('btcj',JSON.stringify(J))}catch(e){}}
+function kp(l,v,c){return'<div class="kpi"><small>'+l+'</small><b class="'+(c||'')+'">'+v+'</b></div>'}
+function jpnl(t){var d=t.B?t.x-t.p:t.p-t.x,fee=2*Math.min(n('fe')/100*t.s*LOT*t.l,0.1*t.p*LOT*t.l)*1.18;return(d*LOT*t.l-fee)*t.fx}
+$('sj').onclick=function(){var q=P();if(!(q.K>0&&q.p>0))return;J.unshift({ts:new Date().toLocaleString(),B:q.B,c:q.c,K:q.K,p:q.p,l:q.lots,s:q.S,x:null,fx:q.fx});jsave();$('sj').textContent='✅ सेव्ह झालं';setTimeout(function(){$('sj').textContent='📒 ट्रेड जर्नलमध्ये सेव्ह करा'},1500)};
+function jrRender(){
+  var tot=0,w=0,cl=0,h='';
+  J.forEach(function(t,i){var done=t.x!=null,v=done?jpnl(t):0;if(done){cl++;tot+=v;if(v>=0)w++}
+    h+='<div class="jr"><div><b>'+(t.B?'Buy ':'Sell ')+t.K+' '+(t.c?'Call':'Put')+' × '+t.l+' Lot</b><div class="mu">'+t.ts+' · एंट्री '+m(t.p)+(done?' → एक्झिट '+m(t.x):'')+'</div></div>'
+     +(done?'<b class="'+(v>=0?'g':'r')+'">'+(v>=0?'+':'−')+'₹'+Math.abs(v).toFixed(0)+'</b>':'<div class="jx"><input id="jx'+i+'" type="number" placeholder="एक्झिट"><button class="btn2" data-a="c" data-i="'+i+'">क्लोज</button></div>')
+     +'<button class="x" data-a="d" data-i="'+i+'">×</button></div>'});
+  $('jl').innerHTML=h||'<div class="mu">–</div>';
+  $('js').innerHTML=kp('नेट P&L',(tot>=0?'+':'−')+'₹'+Math.abs(tot).toFixed(0),tot>=0?'g':'r')+kp('ट्रेड्स',cl+' / '+J.length)+kp('जिंकण्याचा %',cl?(w/cl*100).toFixed(0)+'%':'–');
+}
+$('jl').onclick=function(e){var a=e.target.dataset.a,i=e.target.dataset.i;
+  if(a=='d')J.splice(i,1);
+  else if(a=='c'){var v=parseFloat($('jx'+i).value);if(!(v>=0))return;J[i].x=toU(v)}
+  else return;
+  jsave();jrRender()};
+/* ===== Strategy ===== */
+var LG=[];
+function kAt(off){if(strikes.length){var S=n('s'),i0=0,b=1e12;strikes.forEach(function(k,i){if(Math.abs(k-S)<b){b=Math.abs(k-S);i0=i}});return strikes[Math.max(0,Math.min(strikes.length-1,i0+off))]}return Math.round(n('s')/200)*200+off*200}
+function legP(K,c,B){var o=chain[K]&&chain[K][c?'C':'P'],v=o?((B?o.ask:o.bid)||o.mark):0;return v||bs(n('s'),K,n('iv')/100,n('hl'),c)}
+function leg(B,c,off){var K=kAt(off);return{B:B,c:c,K:K,p:legP(K,c,B),l:1}}
+function sPre(t){LG=t=='st'?[leg(1,1,0),leg(1,0,0)]:t=='sg'?[leg(1,1,1),leg(1,0,-1)]:t=='bc'?[leg(1,1,0),leg(0,1,2)]:[leg(1,0,0),leg(0,0,-2)];sLegs()}
+function sLegs(){var h='';LG.forEach(function(g,i){var d='data-i="'+i+'" ';
+  h+='<div class="leg"><select '+d+'data-f="B"><option value="1"'+(g.B?' selected':'')+'>Buy</option><option value="0"'+(g.B?'':' selected')+'>Sell</option></select><select '+d+'data-f="c"><option value="1"'+(g.c?' selected':'')+'>Call</option><option value="0"'+(g.c?'':' selected')+'>Put</option></select><input type="number" '+d+'data-f="K" value="'+g.K+'"><input type="number" step="0.1" '+d+'data-f="p" value="'+pv(g.p)+'"><input type="number" '+d+'data-f="l" value="'+g.l+'"><button data-d="'+i+'">×</button></div>'});
+  $('slg').innerHTML=h;sRender()}
+$('slg').oninput=function(e){var d=e.target.dataset,g=LG[d.i];if(!g)return;if(d.f=='p')g.p=toU(parseFloat(e.target.value)||0);else if(d.f=='l')g.l=Math.max(1,parseInt(e.target.value)||1);sRender()};
+$('slg').onchange=function(e){var d=e.target.dataset,g=LG[d.i];if(!g)return;var v=e.target.value;if(d.f=='B')g.B=v=='1';else if(d.f=='c')g.c=v=='1';else if(d.f=='K')g.K=parseFloat(v)||g.K;else return;g.p=legP(g.K,g.c,g.B);sLegs()};
+$('slg').onclick=function(e){if(e.target.dataset.d!=null){LG.splice(e.target.dataset.d,1);sLegs()}};
+$('sadd').onclick=function(){if(LG.length<4){LG.push(leg(1,1,0));sLegs()}};
+$('spre').onclick=function(e){if(e.target.dataset.v)sPre(e.target.dataset.v)};
+function sbInit(){if(!LG.length)sPre('st');else sLegs()}
+function sPay(S){var t=0;LG.forEach(function(g){var e=g.c?Math.max(S-g.K,0):Math.max(g.K-S,0);t+=(g.B?e-g.p:g.p-e)*LOT*g.l});return t*(n('fx')||1)}
+function sRender(){
+  if(!LG.length){$('sk').innerHTML='';$('sc').innerHTML='';return}
+  var S=n('s')||60000,fx=n('fx')||1,net=0,Ks=LG.map(function(g){return g.K});
+  LG.forEach(function(g){net+=(g.B?-g.p:g.p)*LOT*g.l*fx});
+  var hiS=S*4,mx=-1e18,mn=1e18,be=[],pr=null;
+  var xs=[];for(var i=0;i<=400;i++)xs.push(hiS*i/400);Ks.forEach(function(k){xs.push(k)});xs.sort(function(a,b){return a-b});
+  for(var i=0;i<xs.length;i++){var x=xs[i],v=sPay(x);mx=Math.max(mx,v);mn=Math.min(mn,v);if(pr&&(pr[1]<0)!=(v<0)&&pr[1]!=v)be.push(pr[0]+(x-pr[0])*(0-pr[1])/(v-pr[1]));pr=[x,v]}
+  var sl=sPay(S*4)-sPay(S*3),uP=sl>1e-9,uL=sl<-1e-9,f0=function(v){return(v>=0?'+':'−')+'₹'+Math.abs(v).toFixed(0)};
+  $('sk').innerHTML=kp(net<0?'Net डेबिट':'Net क्रेडिट',f0(net),net<0?'r':'g')+kp('Max Profit',uP?'अमर्यादित':f0(mx),'g')+kp('Max Loss',uL?'अमर्यादित':f0(mn),'r')+'<div class="mu" style="grid-column:1/-1;text-align:center">Breakeven: '+(be.length?be.map(function(b){return'$'+b.toFixed(0)}).join(' · '):'–')+'</div>';
+  var lo=Math.min(S,Math.min.apply(null,Ks))*.94,hi=Math.max(S,Math.max.apply(null,Ks))*1.06,A=[],cy=[];
+  for(var j=0;j<=60;j++){var y=lo+(hi-lo)*j/60,pv2=sPay(y);A.push([y,pv2]);cy.push(pv2)}
+  var cmx=Math.max.apply(null,cy),cmn=Math.min.apply(null,cy);if(cmx-cmn<1){cmx+=1;cmn-=1}
+  var W=360,H=220,Lf=46,R=8,T=12,Bt=22,X=function(s){return Lf+(s-lo)/(hi-lo)*(W-Lf-R)},Y=function(v){return T+(cmx-v)/(cmx-cmn)*(H-T-Bt)},
+      d=A.map(function(p,i){return(i?'L':'M')+X(p[0]).toFixed(1)+' '+Y(p[1]).toFixed(1)}).join(''),y0=Y(0),
+      tx=function(x,y,t,a,c){return'<text x="'+x+'" y="'+y+'" font-size="9" text-anchor="'+(a||'start')+'" style="fill:var(--'+(c||'mu')+')">'+t+'</text>'};
+  $('sc').innerHTML='<line x1="'+Lf+'" x2="'+(W-R)+'" y1="'+y0+'" y2="'+y0+'" style="stroke:var(--mu)" stroke-dasharray="3"/><path d="'+d+'" fill="none" style="stroke:var(--ac)" stroke-width="2.6"/><line x1="'+X(S)+'" x2="'+X(S)+'" y1="'+T+'" y2="'+(H-Bt)+'" style="stroke:var(--g)" stroke-dasharray="2"/>'+tx(X(S),T+9,'BTC','middle','g')+tx(2,T+8,'₹'+cmx.toFixed(0))+tx(2,H-Bt,'₹'+cmn.toFixed(0))+tx(Lf,H-6,lo.toFixed(0))+tx(W-R,H-6,hi.toFixed(0),'end');
+}
+
+
+var chAll=false,psd='B',pwin='A',prBy={};
+$('cs').onclick=function(){chAll=!chAll;$('cs').textContent=chAll?'↕ आसपास':'↕ सगळे स्ट्राइक';calc()};
+function hrsLeft(e){return Math.max(.01,(edt(e)+43200000-Date.now())/3600000)}
+function zeroP(o,S,h){var iv=o.iv>0?o.iv:(n('iv')/100||.5),s2=iv*Math.sqrt(h/8760),pu=N((Math.log(S/o.k)-.5*s2*s2)/s2);return o.t=='C'?1-pu:pu}
+function openOpt(o){var x=o.e;typ=o.t;setSeg('typ',o.t);sd=psd;setSeg('sd',psd);$('k').value=o.k;$('ed').value='20'+x.slice(4)+'-'+x.slice(2,4)+'-'+x.slice(0,2);hlFromDate();
+  $('p').value=pv((psd=='B'?o.ask:o.bid)||o.mark);$('cp').value=pv((psd=='B'?o.bid:o.ask)||o.mark);if(o.iv)$('iv').value=(o.iv*100).toFixed(1);if(aspot)$('s').value=aspot.toFixed(1);tab(1);calc();tick()}
+function prCell(o,S,h,B,bal,lev){
+  if(!o)return'<td>–</td>';
+  var px=B?(o.ask||o.mark):(o.bid||o.mark);if(!px)return'<td>–</td>';
+  var z=zeroP(o,S,h),per=B?px*LOT:S*LOT/lev+(o.mark||px)*LOT,lots=per>0?Math.floor(bal/per):0,be=o.t=='C'?o.k+px:o.k-px,bp=(be/S-1)*100,
+      bg=B?'rgba(255,93,115,'+(z*.5).toFixed(2)+')':'rgba(47,211,155,'+(z*.5).toFixed(2)+')';
+  return'<td class="pc" data-k="'+o.k+'" data-t="'+o.t+'" style="background:'+bg+'"><b>'+m(px)+'</b> <small>🕳'+(z*100).toFixed(0)+'%</small><br><small>'+lots+'L · BE '+(bp>=0?'+':'')+bp.toFixed(1)+'%</small></td>';
+}
+function prRender(){
+  var e=$('prx').value,L=all.filter(function(o){return o.e==e}),S=aspot||n('s');
+  if(!L.length){$('prt').innerHTML='';$('prk').innerHTML='';$('prp').innerHTML='';return}
+  var h=hrsLeft(e),B=psd=='B',bal=toU(n('bal')),lev=Math.max(1,n('lev')),by={},ks=[],zc=0,nc=0,zp=0,np=0;
+  L.forEach(function(o){if(!by[o.k]){by[o.k]={};ks.push(o.k)}by[o.k][o.t]=o;var z=zeroP(o,S,h);if(o.t=='C'){zc+=z;nc++}else{zp+=z;np++}});
+  ks.sort(function(a,b){return a-b});prBy=by;
+  var atm=ks[0],bd=1e12;ks.forEach(function(k){if(Math.abs(k-S)<bd){bd=Math.abs(k-S);atm=k}});
+  var ivs=[];['C','P'].forEach(function(t){var o=by[atm]&&by[atm][t];if(o&&o.iv>0)ivs.push(o.iv)});
+  var iv0=ivs.length?ivs.reduce(function(a,b){return a+b})/ivs.length:(n('iv')/100||.5),sg=iv0*Math.sqrt(h/8760);
+  $('prk').innerHTML=kp('Call: सरासरी शून्य',nc?(zc/nc*100).toFixed(0)+'%':'–')+kp('Put: सरासरी शून्य',np?(zp/np*100).toFixed(0)+'%':'–')+kp('सगळे: सरासरी शून्य',(nc+np)?((zc+zp)/(nc+np)*100).toFixed(0)+'%':'–')
+    +'<div class="mu" style="grid-column:1/-1;text-align:center">1σ रेंज (≈68%): $'+(S*Math.exp(-sg)).toFixed(0)+' – $'+(S*Math.exp(sg)).toFixed(0)+' · '+h.toFixed(1)+'h बाकी</div>';
+  var pk=[];
+  L.forEach(function(o){var px=B?(o.ask||o.mark):(o.bid||o.mark);if(!px)return;var per=B?px*LOT:S*LOT/lev+(o.mark||px)*LOT,lots=per>0?Math.floor(bal/per):0,sp=(o.ask&&o.bid)?(o.ask-o.bid)/((o.ask+o.bid)/2)*100:99;if(lots<1||sp>25)return;
+    var be=o.t=='C'?o.k+px:o.k-px,iv=o.iv>0?o.iv:iv0,s2=iv*Math.sqrt(h/8760),up=be>0?N((Math.log(S/be)-.5*s2*s2)/s2):1,win=o.t=='C'?(B?up:1-up):(B?1-up:up);
+    pk.push({o:o,px:px,lots:lots,sp:sp,win:win,sc:B?win:win*px})});
+  pk.sort(function(a,b){return b.sc-a.sc});
+  $('prh').textContent=B?'Buy: नफ्यात संपण्याची शक्यता जास्त + बॅलन्समध्ये बसणारे + कमी spread':'Sell: प्रीमियम टिकण्याची शक्यता जास्त + बॅलन्समध्ये बसणारे + कमी spread';
+  $('prp').innerHTML=pk.slice(0,5).map(function(x){return'<div class="jr pc" data-k="'+x.o.k+'" data-t="'+x.o.t+'" style="cursor:pointer"><div><b class="'+(x.o.t=='C'?'g':'r')+'">'+x.o.k+' '+(x.o.t=='C'?'Call':'Put')+'</b><div class="mu">'+m(x.px)+' · PoP '+(x.win*100).toFixed(0)+'% · '+x.lots+' Lot · spread '+x.sp.toFixed(0)+'%</div></div><b>›</b></div>'}).join('')||'<div class="mu">–</div>';
+  var i0=ks.indexOf(atm),a=pwin=='A'?0:Math.max(0,i0-10),b=pwin=='A'?ks.length:Math.min(ks.length,i0+11),t='<table><tr><th style="text-align:center">CALL</th><th style="text-align:center">Strike</th><th style="text-align:center">PUT</th></tr>';
+  for(var i=a;i<b;i++){var k=ks[i];t+='<tr'+(k==atm?' class="atm"':'')+'>'+prCell(by[k].C,S,h,B,bal,lev)+'<td class="k">'+k+'</td>'+prCell(by[k].P,S,h,B,bal,lev)+'</tr>'}
+  $('prt').innerHTML=t+'</table>';
+}
+function prTap(e){var td=e.target.closest('.pc');if(!td)return;var o=prBy[td.dataset.k]&&prBy[td.dataset.k][td.dataset.t];if(o)openOpt(o)}
+$('prt').onclick=prTap;$('prp').onclick=prTap;$('prx').onchange=prRender;$('prl').onclick=loadAll;
+$('prs').onclick=function(e){if(e.target.tagName!='BUTTON')return;psd=e.target.dataset.v;setSeg('prs',psd);prRender()};
+$('prw').onclick=function(e){if(e.target.tagName!='BUTTON')return;pwin=e.target.dataset.v;setSeg('prw',pwin);prRender()};
+
+/* ===== टॅब ===== */
+function tab(x){[1,2,3,4,5].forEach(function(i){$('t'+i).hidden=i!=x});[].forEach.call(document.querySelectorAll('nav button'),function(b){b.classList.toggle('on',b.dataset.t==x)});if(x==2&&!all.length)loadAll();if(x==5){if(!all.length)loadAll();else prRender()}if(x==3)sbInit();if(x==4)jrRender();window.scrollTo(0,0)}
+document.querySelector('nav').onclick=function(e){if(e.target.dataset.t)tab(+e.target.dataset.t)};
+
+/* ===== ॲडव्हान्स: सगळे BTC ऑप्शन ===== */
+var all=[],ar=[],af='A',aso='oi',aspot=0;
+function edt(e){return Date.UTC(2000+ +e.slice(4,6),+e.slice(2,4)-1,+e.slice(0,2))}
+async function loadAll(){
+  $('as').textContent='⏳ सगळे BTC ऑप्शन आणत आहे...';$('prm').textContent=$('as').textContent;
+  try{
+    var r=await fetch('https://api.india.delta.exchange/v2/tickers?contract_types=call_options,put_options&underlying_asset_symbols=BTC'),j=await r.json(),arr=j.result;
+    if(!arr||!arr.length)throw new Error('डेटा आला नाही');
+    all=[];aspot=0;
+    arr.forEach(function(t){var sy=(t.symbol||'').split('-');if(sy.length<4)return;var qu=t.quotes||{},g=t.greeks||{},iv=num(qu.mark_iv);if(iv>5)iv=iv/100;
+      all.push({t:sy[0],k:+sy[2],e:sy[3],bid:num(qu.best_bid),ask:num(qu.best_ask),mark:num(t.mark_price),iv:iv,d:num(g.delta),oi:num(t.oi_contracts||t.oi),vol:num(t.volume)});
+      if(!aspot)aspot=num(t.spot_price)});
+    var ex={};all.forEach(function(o){ex[o.e]=1});
+    var ks=Object.keys(ex).sort(function(a,b){return edt(a)-edt(b)});
+    $('ax').innerHTML=ks.map(function(e){return'<option value="'+e+'">'+e.slice(0,2)+'-'+e.slice(2,4)+'-20'+e.slice(4)+'</option>'}).join('');
+    var nx=ks.filter(function(e){return edt(e)+43200000>Date.now()})[0];if(nx)$('ax').value=nx;
+    $('as').textContent='✅ '+all.length+' ऑप्शन | BTC '+aspot.toFixed(0)+' | '+new Date().toLocaleTimeString();
+    $('prx').innerHTML=$('ax').innerHTML;$('prx').value=$('ax').value;aRender();prRender();$('prm').textContent=$('as').textContent;
+  }catch(err){$('prm').textContent='❌ '+err.message;$('as').textContent='❌ '+err.message+' — नेट ब्लॉक असेल; फाईल फोनवर थेट उघडा'}
+}
+function aRender(){
+  var e=$('ax').value,L=all.filter(function(o){return o.e==e}),S=aspot||n('s');if(!L.length)return;
+  var atm=0,b=1e12,ksx={};L.forEach(function(o){ksx[o.k]=1;if(Math.abs(o.k-S)<b){b=Math.abs(o.k-S);atm=o.k}});
+  var pick=function(t){var o=L.filter(function(x){return x.k==atm&&x.t==t})[0];return o?o.mark:0},st=pick('C')+pick('P'),co=0,po=0,mp=0,mn=1e30;
+  L.forEach(function(o){if(o.t=='C')co+=o.oi;else po+=o.oi});
+  Object.keys(ksx).forEach(function(K){K=+K;var z=0;L.forEach(function(o){z+=o.oi*(o.t=='C'?Math.max(K-o.k,0):Math.max(o.k-K,0))});if(z<mn){mn=z;mp=K}});
+  $('ak').innerHTML='<div class="kpi"><small>ATM Straddle</small><b>'+m(st)+'</b><small>अपेक्षित हालचाल ±'+(S?st/S*100:0).toFixed(2)+'%</small></div><div class="kpi"><small>PCR (OI)</small><b>'+(co?(po/co).toFixed(2):'–')+'</b><small>'+(po>co?'Put जास्त':'Call जास्त')+'</small></div><div class="kpi"><small>Max Pain</small><b>'+(mp||'–')+'</b><small>'+(mp&&S?((mp/S-1)*100).toFixed(1)+'%':'')+'</small></div>';
+  var f=aso=='d'?function(o){return Math.abs(o.d)}:function(o){return o[aso]};
+  ar=L.filter(function(o){return af=='A'||o.t==af}).sort(function(a,b){return f(b)-f(a)}).slice(0,30);
+  var h='<tr><th>Strike</th><th>Bid '+(cur=='₹'?'₹':'$')+'</th><th>Ask '+(cur=='₹'?'₹':'$')+'</th><th>IV</th><th>Δ</th><th>OI</th><th>Vol</th></tr>';
+  ar.forEach(function(o,i){h+='<tr data-i="'+i+'"><td><b class="'+(o.t=='C'?'g':'r')+'">'+o.k+' '+o.t+'</b></td><td>'+(o.bid?pv(o.bid):'–')+'</td><td>'+(o.ask?pv(o.ask):'–')+'</td><td>'+(o.iv?(o.iv*100).toFixed(0):'–')+'</td><td>'+(o.d?o.d.toFixed(2):'–')+'</td><td>'+(o.oi||'–')+'</td><td>'+(o.vol||'–')+'</td></tr>'});
+  $('at').innerHTML=h;
+}
+$('ax').onchange=aRender;$('al').onclick=loadAll;
+$('af').onclick=function(e){if(e.target.tagName!='BUTTON')return;af=e.target.dataset.v;setSeg('af',af);aRender()};
+$('aso').onclick=function(e){if(e.target.tagName!='BUTTON')return;aso=e.target.dataset.v;setSeg('aso',aso);aRender()};
+$('at').onclick=function(e){
+  var tr=e.target.closest('tr[data-i]');if(!tr)return;var o=ar[tr.dataset.i],x=o.e;
+  typ=o.t;setSeg('typ',o.t);$('k').value=o.k;$('ed').value='20'+x.slice(4)+'-'+x.slice(2,4)+'-'+x.slice(0,2);hlFromDate();
+  $('p').value=pv((sd=='B'?o.ask:o.bid)||o.mark);$('cp').value=pv((sd=='B'?o.bid:o.ask)||o.mark);
+  if(o.iv)$('iv').value=(o.iv*100).toFixed(1);if(aspot)$('s').value=aspot.toFixed(1);
+  tab(1);calc();tick();
+};
+
+/* ===== English / मराठी ===== */
+var EN=false,D={
+'तुमची एंट्री प्राईस (':'Your entry price (','उपलब्ध बॅलन्स (Avbl.)':'Available (Avbl.)','उपलब्ध बॅलन्स (':'Available balance (','इन्व्हेस्टमेंट / एक्सपोजर':'Investment / Exposure','एक्सपोजर (Notional)':'Exposure (Notional)','लागणारे पैसे (Req.)':'Required (Req.)','कमाल Lot (बॅलन्समध्ये)':'Max lots (within balance)','प्रीमियम (Buy = द्यावा लागतो, Sell = मिळतो)':'Premium (Buy = you pay, Sell = you receive)','नफा/तोटा ÷ इन्व्हेस्टमेंट (वरच्या परिस्थितीत)':'P&L ÷ investment (in scenario above)','बॅलन्समध्ये बसतं':'Fits in balance','बॅलन्स कमी पडतो — कमाल ':'Balance too low — max ','Sell मध्ये Req. = एक्सपोजर ÷ Leverage + प्रीमियम (तुमच्या पूर्वीच्या पोझिशनवरून जुळवलेला अंदाज). Buy मध्ये फक्त प्रीमियम. Delta चं खरं Req. थोडं वेगळं असू शकतं.':'In Sell, Req. = exposure ÷ leverage + premium (estimate matched to your earlier position). In Buy, only the premium. Delta\'s actual Req. may differ slightly.','सध्याची प्राईस (':'Current price (','प्रेडिक्शन चेन — शून्य होण्याची शक्यता':'Prediction chain — chance of expiring worthless','सगळे स्ट्राइक':'All strikes','आसपास':'Near ATM','टॉप पिक्स':'Top picks',
+'प्रत्येक खान्यात: प्राईस · शून्य होण्याची शक्यता · बॅलन्समध्ये किती Lot · Breakeven साठी BTC किती %. खान्यावर टॅप = कॅल्क्युलेटरमध्ये उघडेल.':'Each cell: price · chance of going to zero · lots within balance · BTC % needed for breakeven. Tap a cell = opens in calculator.',
+'Call: सरासरी शून्य':'Call: avg zero','Put: सरासरी शून्य':'Put: avg zero','सगळे: सरासरी शून्य':'All: avg zero','1σ रेंज (≈68%)':'1σ range (≈68%)','h बाकी':'h left',
+'Buy: नफ्यात संपण्याची शक्यता जास्त + बॅलन्समध्ये बसणारे + कमी spread':'Buy: higher chance to finish in profit + fits balance + tight spread','Sell: प्रीमियम टिकण्याची शक्यता जास्त + बॅलन्समध्ये बसणारे + कमी spread':'Sell: higher chance to keep premium + fits balance + tight spread',
+'कोणत्याही ओळीवर टॅप करा → त्या BTC हालचालीचा छोटा चार्ट (वेळेनुसार).':'Tap any row → small chart of that BTC move (over time).','वेळेनुसार P&L ₹':'P&L ₹ over time','टार्गेट लागला!':'Target hit!','SL लागला!':'SL hit!','अलर्ट (टार्गेट / SL / BTC लेव्हल)':'Alerts (Target / SL / BTC level)','अलर्ट चालू (🟢 लाईव्ह चालू हवं)':'Alerts on (needs 🟢 Live)','BTC या वर गेला तर ($)':'If BTC goes above ($)','BTC या खाली गेला तर ($)':'If BTC goes below ($)','उदा. 61000':'e.g. 61000','उदा. 59000':'e.g. 59000',
+'टार्गेट आणि SL प्राईस वरच्या प्लॅनरमधल्या % वरून. पेज उघडं आणि स्क्रीन चालू असेल तरच वाजेल (फोनवर व्हायब्रेशन + आवाज).':'Target and SL prices come from the % in the planner above. Rings only while the page is open and the screen is on (vibration + sound).',
+'जिंकण्याची शक्यता (expiry ला नफ्यात)':'Win chance (profit at expiry)','टार्गेट लागण्याची शक्यता (होल्ड वेळेत)':'Chance target is touched (within hold time)','SL लागण्याची शक्यता':'Chance SL is touched','कमाल तोटा ₹ (प्रति ट्रेड)':'Max loss ₹ (per trade)',
+'Liquidation BTC (Sell, अंदाज)':'Liquidation BTC (Sell, est.)','कमाल तोटा नुसार Lot':'Lots by max loss','% SL वर)':'% SL)','खूप दूर':'very far','लागू नाही (Buy: जास्तीत जास्त तोटा = प्रीमियम)':'N/A (Buy: max loss = premium)',
+'ट्रेड जर्नलमध्ये सेव्ह करा':'Save to trade journal','सेव्ह झालं':'Saved','ट्रेड जर्नल':'Trade journal','कॅल्क्युलेटरमधून "सेव्ह करा" दाबा. नंतर एक्झिट प्राईस टाकून क्लोज करा. डेटा याच फोनमध्ये साठवला जातो.':'Press "Save" in the calculator. Later enter the exit price and close. Data is stored on this phone.','एक्झिट':'Exit','क्लोज':'Close','नेट P&L':'Net P&L','ट्रेड्स':'Trades','जिंकण्याचा %':'Win rate','जर्नल':'Journal',
+'Strategy बिल्डर':'Strategy builder','किंमत: चेन लोड असेल तर Ask/Bid, नाहीतर मॉडेल अंदाज. बदलता येते.':'Price: Ask/Bid if the chain is loaded, otherwise a model estimate. Editable.','अमर्यादित':'Unlimited','Net डेबिट':'Net debit','Net क्रेडिट':'Net credit',') — तुमच्या ऑप्शनची':') — your option','Payoff चार्ट':'Payoff chart','ठिपक्यांची रेघ = होल्ड कालावधीनंतर (अंदाज) · घट्ट रेघ = expiry ला':'Dotted = after hold period (estimate) · Solid = at expiry','सध्याच्या प्राईसवर':'at current price','आत्ता':'Right now',
+'चेन लोड करा':'Load chain','दर 10 सेकंदाला आपोआप':'Auto every 10s','किती तासात?':'Within how many hours?','BTC किती % गेला? (− = खाली)':'BTC move %? (− = down)',
+'स्कॅनर: या हालचालीला प्रत्येक स्ट्राइकवर किती % नफा/तोटा. स्ट्राइकवर टॅप करा.':'Scanner: P&L % at each strike for this move. Tap a strike.',
+'वर "चेन लोड करा" दाबा. (किंवा खाली हाताने भरा)':'Press "Load chain" above (or fill in manually below)','Expiry तारीख':'Expiry date',
+'BTC आता':'BTC now','लाईव्ह (5 से.)':'Live (5s)','प्राईस':'Price','आता ':'now ','एंट्री ':'Entry ',
+'सध्याची प्राईस भरा किंवा 🟢 लाईव्ह चालू करा':'Enter current price or turn 🟢 Live on','% गेला तर (':'% move (',' तासात)':' h)',
+'% वापरला (सध्याच्या प्राईसवरून जुळवला)':'% used (matched to current price)','% वापरला (सेटिंग्जमधला)':'% used (from settings)',
+'लागणारे पैसे: ':'Cost: ','अंदाजे मार्जिन (200x): ':'Est. margin (200x): ','फी −₹':'Fee −₹',' → नेट: ':' → Net: ',
+'टार्गेट / SL / बजेट / फी':'Target / SL / Budget / Fees','ॲव्हरेज':'Average','सगळ्या हालचाली × वेळ (Buy आणि Sell)':'All moves × time (Buy & Sell)','नफा ₹':'P&L ₹','नफा %':'P&L %','Buy केलं तर':'If you Buy','Sell केलं तर':'If you Sell','BTC जितक्या % हलतो × जितके तास गेले = तेव्हाची ऑप्शन प्राईस. रंग = त्या बाजूचा नफा/तोटा (एंट्री = वर टाकलेली प्राईस).':'BTC move % × hours elapsed = option price then. Colour = P&L of that side (entry = price entered above).','सेटिंग्ज':'Settings',
+'टार्गेट प्रॉफिट %':'Target profit %','बजेट ₹':'Budget ₹','कमाल Lot भरा':'Fill max lots','फी % (notional)':'Fee % (notional)','टार्गेट प्राईस':'Target price','SL प्राईस':'SL price',
+'…तेव्हा BTC':'…BTC needed','Theta प्रति तास':'Theta per hour','शक्य नाही':'not possible','+ ओळ':'+ Row','हे वापरा ✔':'Use this ✔',' | एकूण ':' | Total ',
+'IV % (चेनवरून आपोआप)':'IV % (auto from chain)','Expiry ला तास बाकी':'Hours left to expiry','₹ प्रति $':'₹ per $',
+'आकडे Black-Scholes अंदाज आहेत; खरी किंमत वेगळी असू शकते.':'Figures are Black-Scholes estimates; real prices may differ.',
+'आधी expiry तारीख निवडा.':'Pick an expiry date first.','⏳ चेन आणत आहे...':'⏳ Fetching chain...','या तारखेला BTC ऑप्शन सापडले नाहीत (तारीख तपासा)':'No BTC options for this date (check date)',
+'डेटा वाचता आला नाही. पहिला रेकॉर्ड: ':'Could not parse data. First record: ',' स्ट्राइक | BTC ':' strikes | BTC ',
+" — Claude च्या पेजवर नेट ब्लॉक असतं. फाईल डाउनलोड करून फोनवर थेट उघडा; तोपर्यंत हाताने भरा.":" — Claude's hosted page blocks network. Download the file and open it directly on your phone; fill in manually meanwhile.",
+' | ऑप्शन ':' | Option ',' | ऑप्शन सापडला नाही (strike/तारीख तपासा)':' | option not found (check strike/date)','BTC किंमत मिळाली नाही':'BTC price not received',
+'🔴 लाईव्ह नाही: ':'🔴 Not live: ',' — फाईल फोनवर थेट उघडा, किंवा हाताने भरा':' — open the file directly on phone, or fill in manually','लाईव्ह बंद — हाताने भरलेले आकडे वापरले जातात':'Live off — using manually entered values',
+'कॅल्क्युलेटर':'Calculator','ॲडव्हान्स':'Advanced','सगळे लोड करा':'Load all','सगळ्या expiry चे सगळे BTC ऑप्शन इथे दिसतील.':'All BTC options of every expiry will show here.',
+'सगळे':'All','ओळीवर टॅप करा → कॅल्क्युलेटरमध्ये उघडेल':'Tap a row → opens in calculator','सगळे BTC ऑप्शन आणत आहे...':'Fetching all BTC options...',' ऑप्शन | BTC ':' options | BTC ',
+'डेटा आला नाही':'No data received',' — नेट ब्लॉक असेल; फाईल फोनवर थेट उघडा':' — network may be blocked; open the file directly on phone','अपेक्षित हालचाल ±':'expected move ±','Put जास्त':'More puts','Call जास्त':'More calls',
+'चेनवरून':'from chain'};
+var DK=Object.keys(D).sort(function(a,b){return b.length-a.length});
+function trs(t){for(var i=0;i<DK.length;i++){if(t.indexOf(DK[i])>-1)t=t.split(DK[i]).join(D[DK[i]])}return t}
+function tr(){
+  var w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT),nd,v,t;
+  while(nd=w.nextNode()){v=nd.nodeValue;t=trs(v);if(t!==v){if(nd._mr===undefined)nd._mr=v;nd.nodeValue=t}}
+  [].forEach.call(document.querySelectorAll('[placeholder]'),function(el){var v=el.getAttribute('placeholder'),t=trs(v);if(t!==v){if(!el._ph)el._ph=v;el.setAttribute('placeholder',t)}});
+}
+function applyLang(init){
+  $('lg').textContent=EN?'मराठी':'EN';
+  if(EN){tr();return}
+  if(init)return;
+  var w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT),nd;
+  while(nd=w.nextNode()){if(nd._mr!==undefined){nd.nodeValue=nd._mr;nd._mr=undefined}}
+  [].forEach.call(document.querySelectorAll('[placeholder]'),function(el){if(el._ph){el.setAttribute('placeholder',el._ph);el._ph=null}});
+  calc();avDraw();if(all.length)aRender();
+}
+$('lg').onclick=function(){EN=!EN;try{localStorage.setItem('lang',EN?'en':'mr')}catch(e){}applyLang()};
+new MutationObserver(function(){if(EN)tr()}).observe(document.body,{childList:true,subtree:true,characterData:true});
+try{EN=localStorage.getItem('lang')=='en'}catch(e){}
+hlFromDate();avDraw();calc();liveOn();applyLang(true);
+</script>
+</body>
+</html>
