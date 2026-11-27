@@ -1,32 +1,32 @@
-# BTC Options Lab
+# BTC Options Lab V6 Pro
 
-A single-file (no build, no dependencies) options calculator for Bitcoin options on Delta Exchange India.
-Works offline for calculations; live data needs the page to be opened directly (phone browser / localhost / GitHub Pages).
+A client-side BTC options research dashboard upgraded from V5. No build step.
 
-## Features
-- Buy/Sell calculator: current P&L, scenario P&L (BTC move % in N hours), fees, margin/exposure, max lots
-- Target / SL planner, win probability, alerts (vibration + sound), liquidation estimate (Sell)
-- All-moves x time grid (-12% to +12%) with BTC USD price, sparklines, tap-a-row chart
-- Live BTC + option price, full option chain, "chance of going to zero" prediction tab
-- Strategy builder (straddle, strangle, spreads), trade journal (stored in browser localStorage)
-- Charts tab: candlestick (OHLC) charts for BTC and any option (Mark/Last, 15m/1h/4h/1d), candles saved on the device as history + CSV export
-- BTC chance ladder: probability of BTC ending below/above a level, touch probability, historical frequency, IV vs realized vol
-- Paper trading with auto TP/SL close, journal with equity curve, settings remembered
-- English / Marathi toggle
+## V6 additions
+- Expiry-scoped OI strike heatmap and IV skew view using the selected Delta India options chain.
+- Liquidity proxy ranked from available OI, volume and quoted bid/ask spread (not order-book depth).
+- Illustrative leverage bands (not exchange liquidation prices).
+- Bull call spread, bear put spread and iron condor candidate builder; requires valid quotes and labels estimates/limitations.
+- EMA crossover BTC spot-proxy backtest on locally saved candles, with next-candle-open fills and configurable estimated per-side cost. This is not an options strategy backtest.
+- Browser-local price, IV and OI alerts; checks occur when the app refreshes/renders and are not guaranteed background/push alerts.
+- Open paper-trade risk summary with Delta only where recorded, plus closed-journal analytics.
+- Public market-data fetch buttons for Delta India, Deribit BTC options summary and Binance BTC spot.
 
-## Install as an app (PWA)
-Open the hosted page in Chrome (Android) -> menu -> *Install app* / *Add to Home screen*. On iPhone: Safari -> Share -> *Add to Home Screen*.
-Files needed in the repo root: `index.html`, `manifest.webmanifest`, `sw.js`, `icon-192.png`, `icon-512.png`.
+## Retained V5 features
+Calculator, Black-Scholes estimates, Greeks, option chain, expiry scanner, strategy builder, paper trading, journal, charts, CSV export, Marathi/English UI, local persistence and PWA support.
 
 ## Run
-Open `index.html` in a browser, or serve it:
+Open `index.html` or serve the folder with `python3 -m http.server 8000`. Deploy all files to the GitHub Pages repository root.
 
-    python3 -m http.server 8000
+## Data and risk limitations
+- This is an analysis/research tool, not an execution terminal and not investment advice. No orders or private exchange endpoints are used.
+- Public APIs may fail due to CORS, network, regional access or exchange changes. Multi-exchange responses are displayed independently and are not normalized into one comparable option chain.
+- OI/IV values are only as reliable as the source chain snapshot. Liquidity score is a proxy, not market depth. The leverage bands are illustrative, not liquidation predictions.
+- Strategy builder estimates exclude fees, slippage, margin, exercise/settlement details and early exit effects. Verify contract multiplier and quote currency with the exchange.
+- Backtest is long-only BTC spot proxy using local candles; it does not simulate BTC options, funding, taxes, market impact or guaranteed fills.
+- Smart alerts are browser-local and require the app to be open/refreshed; no server-side or guaranteed background notifications.
+- All model probabilities, Greeks, margin and P&L are estimates. Confirm current exchange specifications before any trade.
+- Existing V4/V5 localStorage keys are preserved; V6 service worker cache is namespaced separately.
 
-## Host free on GitHub Pages
-Repo -> Settings -> Pages -> Deploy from branch -> `main` / root.
-
-## Notes
-- All prices/probabilities are Black-Scholes style estimates, not predictions or financial advice.
-- Delta's real margin and fees can differ from the estimates here.
-- If live data fails, the browser may be blocking cross-origin requests; enter values manually.
+## Validation
+Syntax, duplicate HTML IDs, ZIP integrity and targeted calculator/backtest edge cases are checked in the build environment. Live exchange availability must be verified on the user's device/network.
