@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="mr">
+<html lang="mr" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -162,12 +162,57 @@ table{font-variant-numeric:tabular-nums}
 
 .v6grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.v6wide{grid-column:1/-1}.v6panel{background:var(--card2);border:1px solid var(--bd);border-radius:14px;padding:12px;min-width:0}.v6metric{font-size:22px;font-weight:800;font-variant-numeric:tabular-nums}.v6bar{height:9px;border-radius:99px;background:var(--bd);overflow:hidden}.v6bar>i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--ac),var(--ac2))}.v6table{overflow:auto;max-height:360px}.v6table table{min-width:540px}.v6muted{font-size:12px;color:var(--mu)}.v6pill{display:inline-block;padding:3px 8px;border:1px solid var(--bd);border-radius:99px;font-size:11px;color:var(--mu)}.v6controls{display:flex;gap:8px;flex-wrap:wrap}.v6controls>*{flex:1;min-width:120px}.v6chart{width:100%;height:190px;background:var(--bg);border:1px solid var(--bd);border-radius:12px}.v6status{padding:9px;border-radius:10px;background:var(--bg);font-size:12px;color:var(--mu)}
 @media(max-width:600px){.v6grid{grid-template-columns:1fr}.v6wide{grid-column:auto}}
+/* ===== V7: Delta-style dark theme + Options tab ===== */
+:root{--bg:#0d0f13;--card:#161a20;--card2:#1c2129;--tx:#f1f3f6;--mu:#8b93a3;--bd:#262b34;--g:#2fc58a;--r:#ef5b5b;--ac:#ff8a1f;--ac2:#ffb347;--hl:#2a1d10;color-scheme:dark}
+[hidden]{display:none!important}
+nav button.on{background:rgba(255,138,31,.16)!important;color:var(--ac)!important}
+.seg button.on,.q button.on{background:rgba(255,138,31,.18)!important;color:var(--ac)!important;border-color:var(--ac)!important}
+.logo{background:linear-gradient(90deg,#ff8a1f,#ffb347);-webkit-background-clip:text;background-clip:text}
+.olbar{display:flex;gap:8px;align-items:center;margin:6px 0 10px}
+.olbar select{width:auto;flex:0 0 auto;padding:9px 10px;font-weight:700}
+.olbar .mu{flex:1}
+.olseg{display:flex;border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:8px;background:var(--card)}
+.olseg button{flex:1;padding:10px 4px;border:0;background:none;color:var(--mu);font-weight:700}
+.olseg button.on{background:rgba(255,138,31,.18);color:var(--ac)}
+.olh,.olr{display:grid;grid-template-columns:1fr 1.1fr .85fr 1.1fr 1fr;align-items:center;text-align:center}
+.olh{font-size:12px;color:var(--mu);padding:8px 0;border-bottom:1px solid var(--bd);line-height:1.5}
+.olr{border-bottom:1px solid var(--bd);min-height:58px}
+.olc{padding:8px 2px;display:flex;flex-direction:column;gap:2px;font-variant-numeric:tabular-nums;font-size:14px;cursor:pointer;height:100%;justify-content:center;-webkit-tap-highlight-color:rgba(255,138,31,.2)}
+.olc span{color:var(--mu);font-size:12px}
+.olc.itm{background:rgba(255,255,255,.035)}
+.olc:active{background:rgba(255,138,31,.15)}
+.stk{font-weight:800;font-size:15px;background:var(--card2);height:100%;display:flex;align-items:center;justify-content:center;border-inline:1px solid var(--bd)}
+.olsp{display:flex;align-items:center;gap:8px;margin:0;color:var(--tx);font-weight:700;font-size:13px;border-top:1px solid var(--tx);position:relative;height:0;margin:14px 0}
+.olsp span{position:absolute;left:50%;transform:translateX(-50%);background:var(--card2);border:1px solid var(--bd);border-radius:14px;padding:3px 12px;top:-13px}
+.olmore{width:100%;margin:10px 0;padding:10px;border-radius:12px;border:1px solid var(--bd);background:var(--card);color:var(--mu)}
+#olv{position:fixed;inset:0;z-index:100;background:var(--bg);overflow-y:auto;padding:env(safe-area-inset-top,0) 12px 30px}
+.ovh{display:flex;align-items:center;gap:10px;padding:12px 0;position:sticky;top:0;background:var(--bg);z-index:2;border-bottom:1px solid var(--bd)}
+.ovh button{border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:12px;font-size:20px;width:42px;height:42px}
+.ovh>div{flex:1;min-width:0}.ovh b{display:block;font-size:17px}.ovh small{color:var(--mu)}
+.ovp{font-size:24px;font-weight:800;text-align:right}.ovp small{display:block;font-size:13px}
+.ovk{display:flex;gap:14px;padding:12px 0;overflow-x:auto}.ovk div{white-space:nowrap}.ovk small{display:block;color:var(--mu);font-size:12px}.ovk b{font-size:15px}
+.ovm{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.obr{display:flex;justify-content:space-between;position:relative;font-size:14px;padding:3px 4px;font-variant-numeric:tabular-nums;height:25px}
+.obr i{position:absolute;right:0;top:0;bottom:0;opacity:.22}
+.obr span{position:relative}
+.obmid{font-size:22px;font-weight:800;padding:8px 4px 2px}.obmid small{display:block;font-size:12px;color:var(--mu);font-weight:400}
+.ovr .row2{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--bd);font-size:14px}
+.ovr .row2 span{color:var(--mu)}
+.ovb{display:flex;gap:8px;margin-top:12px}.ovb button{flex:1;padding:13px 4px;border:0;border-radius:12px;font-weight:800;color:#fff;font-size:15px}
+.ovtabs{display:flex;gap:6px;margin:16px 0 8px;border-bottom:1px solid var(--bd)}
+.ovtabs button{background:none;border:0;border-bottom:2px solid transparent;color:var(--mu);padding:10px 14px;font-weight:700}
+.ovtabs button.on{color:var(--ac);border-color:var(--ac)}
+#ovsv{width:100%;touch-action:manipulation;background:var(--card);border-radius:12px}
+.olmsg{padding:30px 10px;text-align:center;color:var(--mu)}
+.alr{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--bd);font-size:14px}
+.alr button{padding:6px 12px;border-radius:10px;border:1px solid var(--ac);background:none;color:var(--ac)}
+.alr.sy{cursor:pointer}
 </style>
 </head>
 <body>
-<div class="hdr"><div class="logo">Option Lab <small style="font-size:10px;vertical-align:middle;color:var(--mu);font-weight:700">V6 PRO</small></div><div style="display:flex;gap:8px"><button id="ins" hidden>📲 Install</button><button id="lg">EN</button></div></div>
+<div class="hdr"><div class="logo">Option Lab <small style="font-size:10px;vertical-align:middle;color:var(--mu);font-weight:700">V7</small></div><div style="display:flex;gap:8px"><button id="ins" hidden>📲 Install</button><button id="lg">EN</button></div></div>
 <div id="alb" class="alb" hidden></div>
-<div id="t1">
+<div id="t1" hidden>
 <div id="ptb" class="card" hidden style="cursor:pointer;padding:10px 14px"></div>
 
 <div class="card">
@@ -439,7 +484,30 @@ table{font-variant-numeric:tabular-nums}
   </div>
 </div>
 
-<nav><button data-t="1" class="on"><span>🧮</span>Calc</button><button data-t="2"><span>🔬</span>Chain</button><button data-t="5"><span>🔮</span>Predict</button><button data-t="6"><span>📈</span>Charts</button><button data-t="3"><span>🧩</span>Strategy</button><button data-t="4"><span>📒</span>Journal</button><button data-t="7"><span>🧭</span>V6 Pro</button></nav>
+<div id="t8">
+<div class="olbar"><select id="olx"></select><div class="mu" id="ols">⏳</div></div>
+<div class="olseg" id="olmode"><button data-v="c" class="on">Option Chain</button><button data-v="a">💾 सेव्ह केलेले</button></div>
+<div id="olch">
+ <div class="olseg" id="olvw"><button data-v="P" class="on">Price</button><button data-v="O">OI / Vol</button><button data-v="G">Greeks</button></div>
+ <div class="mu" id="olxp" style="margin-bottom:6px"></div>
+ <div id="olt"><div class="olmsg">⏳ ऑप्शन चेन येत आहे...</div></div>
+</div>
+<div id="ola" hidden></div>
+</div>
+<div id="olv" hidden>
+ <div class="ovh"><button id="olb">←</button><div><b id="ovn"></b><small id="ovs"></small></div><div class="ovp" id="ovp"></div></div>
+ <div class="ovk" id="ovk"></div>
+ <div class="ovm"><div id="ovob"></div><div class="ovr" id="ovr"></div></div>
+ <div class="ovtabs" id="ovtb"><button data-v="ch" class="on">📈 Chart</button><button data-v="in">ℹ️ Info</button></div>
+ <div id="ovch">
+  <div class="olseg" id="ovre"><button data-v="15m">15m</button><button data-v="1h" class="on">1h</button><button data-v="4h">4h</button><button data-v="1d">1D</button></div>
+  <svg id="ovsv" viewBox="0 0 360 250"></svg>
+  <div class="mu" id="ovci" style="margin-top:6px"></div><div class="mu" id="ovcs"></div>
+ </div>
+ <div id="ovin" hidden></div>
+</div>
+
+<nav><button data-t="8" class="on"><span>🎯</span>Options</button><button data-t="1"><span>🧮</span>Calc</button><button data-t="2"><span>🔬</span>Chain</button><button data-t="5"><span>🔮</span>Predict</button><button data-t="6"><span>📈</span>Charts</button><button data-t="3"><span>🧩</span>Strategy</button><button data-t="4"><span>📒</span>Journal</button><button data-t="7"><span>🧭</span>V6 Pro</button></nav>
 <script>
 var $=function(i){return document.getElementById(i)},typ='C',sd='B',cur='₹',LOT=0.001,chain={},strikes=[],timer=null,avr=[[800,1],[600,1]];
 function n(i){return parseFloat($(i).value)||0}
@@ -986,8 +1054,8 @@ $('v6binance').onclick=async function(){var el=$('v6exchanges');el.textContent='
 v6loadAlerts();
 
 /* ===== टॅब ===== */
-function tab(x){[1,2,3,4,5,6,7].forEach(function(i){$('t'+i).hidden=i!=x});[].forEach.call(document.querySelectorAll('nav button'),function(b){b.classList.toggle('on',b.dataset.t==x)});if(x==2&&!all.length)loadAll();if(x==5){if(!all.length)loadAll();else prRender()}if(x==6)chInit();if(x==7){if(!all.length)loadAll().then(function(){v6render();v6strategy()});else{v6render();v6strategy()}}if(x==3)sbInit();if(x==4)jrRender();window.scrollTo(0,0)}
-document.querySelector('nav').onclick=function(e){if(e.target.dataset.t)tab(+e.target.dataset.t)};
+function tab(x){[1,2,3,4,5,6,7,8].forEach(function(i){$('t'+i).hidden=i!=x});if(x!=8)clearInterval(OL.tm);if(x==8)olInit();[].forEach.call(document.querySelectorAll('nav button'),function(b){b.classList.toggle('on',b.dataset.t==x)});if(x==2&&!all.length)loadAll();if(x==5){if(!all.length)loadAll();else prRender()}if(x==6)chInit();if(x==7){if(!all.length)loadAll().then(function(){v6render();v6strategy()});else{v6render();v6strategy()}}if(x==3)sbInit();if(x==4)jrRender();window.scrollTo(0,0)}
+document.querySelector('nav').onclick=function(e){var b=e.target.closest('button');if(b&&b.dataset.t)tab(+b.dataset.t)};
 
 /* ===== ॲडव्हान्स: सगळे BTC ऑप्शन ===== */
 var all=[],ar=[],af='A',aso='oi',aspot=0;
@@ -1006,7 +1074,7 @@ async function loadAll(){
     $('ax').innerHTML=ks.map(function(e){return'<option value="'+e+'">'+e.slice(0,2)+'-'+e.slice(2,4)+'-20'+e.slice(4)+'</option>'}).join('');
     var nx=ks.filter(function(e){return edt(e)+43200000>Date.now()})[0];if(nx)$('ax').value=nx;
     $('as').textContent='✅ '+all.length+' ऑप्शन | BTC '+aspot.toFixed(0)+' | '+new Date().toLocaleTimeString();
-    $('prx').innerHTML=$('ax').innerHTML;$('prx').value=$('ax').value;$('cex').innerHTML=$('ax').innerHTML;$('cex').value=$('ax').value;chList();aRender();prRender();$('prm').textContent=$('as').textContent;return true;
+    $('prx').innerHTML=$('ax').innerHTML;$('prx').value=$('ax').value;$('cex').innerHTML=$('ax').innerHTML;$('cex').value=$('ax').value;chList();aRender();prRender();$('prm').textContent=$('as').textContent;if(!$('t8').hidden)olFill();return true;
   }catch(err){$('prm').textContent='❌ '+err.message;$('as').textContent='❌ '+err.message+' — नेट ब्लॉक असेल; फाईल फोनवर थेट उघडा';return false}
 }
 function aRender(){
@@ -1091,7 +1159,116 @@ function applyLang(init){
 $('lg').onclick=function(){EN=!EN;try{localStorage.setItem('lang',EN?'en':'mr')}catch(e){}applyLang()};
 new MutationObserver(function(){if(EN)tr()}).observe(document.body,{childList:true,subtree:true,characterData:true});
 try{EN=localStorage.getItem('lang')=='en'}catch(e){}
-loadSet();hlFromDate();avDraw();calc();liveOn();applyLang(true);
+/* ===== V7: Options tab (Delta-style T-shape chain, trade view, auto-archive) ===== */
+var OL={exp:'',view:'P',all:false,o:null,res:'1h',cn:[],sel:-1,tm:null,ob:null,busy:false,seq:0,by:{},run:0},OLDB=null,MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],TURL='https://api.india.delta.exchange/v2/tickers?contract_types=call_options,put_options&underlying_asset_symbols=BTC';
+function olSym(o){return o.t+'-BTC-'+o.k+'-'+o.e}
+function olPrs(s){var p=s.split('-');return{t:p[0],k:+p[2],e:p[3]}}
+function olDay(e){return e.slice(0,2)+' '+MON[+e.slice(2,4)-1]}
+function olLeft(e){var ms=edt(e)+43200000-Date.now();if(ms<=0)return'Expired';var h=Math.floor(ms/3600000),m=Math.floor(ms%3600000/60000);return h>=48?Math.floor(h/24)+'d '+(h%24)+'h':h+'h: '+m+'m'}
+function olf(x){return x>0?(x>=100?x.toFixed(0):x.toFixed(1)):'–'}
+function dayKey(t){return new Date(t||Date.now()).toLocaleDateString('en-CA')}
+function dl(name,txt,mime){var el=document.createElement('a');el.href=URL.createObjectURL(new Blob([txt],{type:mime||'text/plain'}));el.download=name;document.body.appendChild(el);el.click();el.remove()}
+/* IndexedDB */
+function idb(){return OLDB||(OLDB=new Promise(function(res,rej){var q=indexedDB.open('btcOL',1);q.onupgradeneeded=function(){var d=q.result;d.createObjectStore('snap',{keyPath:'ts'});d.createObjectStore('cndl',{keyPath:'id'})};q.onsuccess=function(){res(q.result)};q.onerror=function(){rej(q.error)}}))}
+function idbPut(st,v){return idb().then(function(d){return new Promise(function(res,rej){var t=d.transaction(st,'readwrite');t.objectStore(st).put(v);t.oncomplete=res;t.onerror=function(){rej(t.error)}})})}
+function idbGet(st,k){return idb().then(function(d){return new Promise(function(res,rej){var r=d.transaction(st).objectStore(st).get(k);r.onsuccess=function(){res(r.result)};r.onerror=function(){rej(r.error)}})})}
+function idbAll(st){return idb().then(function(d){return new Promise(function(res,rej){var r=d.transaction(st).objectStore(st).getAll();r.onsuccess=function(){res(r.result||[])};r.onerror=function(){rej(r.error)}})})}
+async function idbMerge(id,sym,res,rows){var old=await idbGet('cndl',id),mp={};((old&&old.rows)||[]).forEach(function(r){mp[r[0]]=r});rows.forEach(function(r){mp[r[0]]=r});var a=Object.keys(mp).map(function(t){return mp[t]}).sort(function(x,y){return x[0]-y[0]});await idbPut('cndl',{id:id,sym:sym,res:res,rows:a,upd:Date.now()});return a}
+/* chain */
+function olParse(arr){var a=[],sp=0;arr.forEach(function(t){var sy=(t.symbol||'').split('-');if(sy.length<4)return;var qu=t.quotes||{},g=t.greeks||{},iv=num(qu.mark_iv);if(iv>5)iv/=100;a.push({t:sy[0],k:+sy[2],e:sy[3],bid:num(qu.best_bid),ask:num(qu.best_ask),mark:num(t.mark_price),iv:iv,d:num(g.delta),oi:num(t.oi_contracts||t.oi),vol:num(t.volume)});if(!sp)sp=num(t.spot_price)});all=a;aspot=sp||aspot}
+function olFill(){var ex={};all.forEach(function(o){ex[o.e]=1});var ks=Object.keys(ex).sort(function(a,b){return edt(a)-edt(b)}),nx=ks.filter(function(e){return edt(e)+43200000>Date.now()});if(!ex[OL.exp])OL.exp=nx[0]||ks[0]||'';$('olx').innerHTML=ks.map(function(e){return'<option value="'+e+'">'+olDay(e)+'</option>'}).join('');$('olx').value=OL.exp;olRender()}
+function olRender(){var el=$('olt');if(!all.length){el.innerHTML='<div class="olmsg">डेटा नाही — नेट तपासा</div>';return}
+  var by={},ks=[];all.forEach(function(o){if(o.e!==OL.exp)return;if(!by[o.k]){by[o.k]={};ks.push(o.k)}by[o.k][o.t]=o});ks.sort(function(a,b){return a-b});OL.by=by;
+  var S=aspot||n('s'),i0=ks.length;for(var i=0;i<ks.length;i++){if(ks[i]>=S){i0=i;break}}
+  var lo=OL.all?0:Math.max(0,i0-8),hi=OL.all?ks.length:Math.min(ks.length,i0+8),v=OL.view;
+  $('olxp').textContent='Expires in '+olLeft(OL.exp);
+  var L=v=='P'?'<span style="color:var(--g)">BID</span><br><span style="color:var(--r)">ASK</span>':v=='O'?'OI<br>Vol':'Delta<br>&nbsp;';
+  var h='<div class="olh"><div>'+L+'</div><div>Mark<br>Price / IV</div><div>Strike</div><div>Mark<br>Price / IV</div><div>'+L+'</div></div>';
+  function outer(o){if(!o)return'<span>–</span>';if(v=='P')return'<b style="color:var(--g)">$'+olf(o.bid)+'</b><b style="color:var(--r)">$'+olf(o.ask)+'</b>';if(v=='O')return'<b>'+v6fmt(o.oi*LOT,2)+'</b><span>'+v6fmt(o.vol*LOT,2)+'</span>';return'<b>'+(o.d?o.d.toFixed(3):'–')+'</b>'}
+  function mid(o){return o?'<b>$'+olf(o.mark)+'</b><span>'+(o.iv>0?(o.iv*100).toFixed(1)+'%':'–')+'</span>':'<span>–</span>'}
+  for(var j=lo;j<hi;j++){var k=ks[j],c=by[k].C,p=by[k].P;
+    if(j==i0&&j>lo)h+='<div class="olsp"><span>BTC '+S.toFixed(1)+'</span></div>';
+    h+='<div class="olr" data-k="'+k+'"><div class="olc'+(k<S?' itm':'')+'" data-t="C">'+outer(c)+'</div><div class="olc'+(k<S?' itm':'')+'" data-t="C">'+mid(c)+'</div><div class="stk">'+k+'</div><div class="olc'+(k>S?' itm':'')+'" data-t="P">'+mid(p)+'</div><div class="olc'+(k>S?' itm':'')+'" data-t="P">'+outer(p)+'</div></div>'}
+  if(i0>=hi&&hi>lo)h+='<div class="olsp"><span>BTC '+S.toFixed(1)+'</span></div>';
+  h+='<button class="olmore" id="olmo">'+(OL.all?'कमी स्ट्राईक्स दाखवा':'सगळे '+ks.length+' स्ट्राईक्स दाखवा')+'</button>';el.innerHTML=h;
+  $('olmo').onclick=function(){OL.all=!OL.all;olRender()}}
+async function olTick(){if(OL.busy)return;OL.busy=true;
+  try{if(!all.length)await loadAll();else{var r=await fetch(TURL,{cache:'no-store'});if(!r.ok)throw new Error('HTTP '+r.status);var j=await r.json();if(j&&j.result&&j.result.length)olParse(j.result)}
+    if(!$('olx').options.length)olFill();else olRender();
+    $('ols').textContent=all.length?'BTC '+aspot.toFixed(1)+' · '+new Date().toLocaleTimeString():'⚠ डेटा नाही';
+    if(OL.o){var f=all.filter(function(x){return x.t==OL.o.t&&x.k==OL.o.k&&x.e==OL.o.e})[0];if(f){OL.o=f;olHdr()}}
+    olAuto()}catch(e){$('ols').textContent='❌ '+e.message}
+  OL.busy=false}
+function olInit(){clearInterval(OL.tm);olTick();OL.tm=setInterval(function(){if(!$('t8').hidden&&$('olv').hidden)olTick()},10000)}
+$('olx').onchange=function(){OL.exp=this.value;olRender()};
+$('olvw').onclick=function(e){var b=e.target.closest('button');if(!b)return;OL.view=b.dataset.v;[].forEach.call(this.children,function(x){x.classList.toggle('on',x===b)});olRender()};
+$('olmode').onclick=function(e){var b=e.target.closest('button');if(!b)return;[].forEach.call(this.children,function(x){x.classList.toggle('on',x===b)});$('olch').hidden=b.dataset.v!='c';$('ola').hidden=b.dataset.v!='a';$('olx').hidden=b.dataset.v!='c';if(b.dataset.v=='a')olArc()};
+$('olt').onclick=function(e){var c=e.target.closest('[data-t]');if(!c)return;var r=c.closest('[data-k]'),o=r&&OL.by[r.dataset.k]&&OL.by[r.dataset.k][c.dataset.t];if(o)olOpen(o)};
+/* trade view */
+function olOpen(o){OL.o=o;OL.cn=[];OL.sel=-1;$('olv').hidden=false;$('olv').scrollTop=0;$('ovob').innerHTML='<div class="mu">⏳</div>';olHdr();olTab('ch');olChart();olBook();clearInterval(OL.ob);OL.ob=setInterval(olBook,3000)}
+function olClose(){$('olv').hidden=true;clearInterval(OL.ob);OL.seq++}
+$('olb').onclick=olClose;
+function olHdr(){var o=OL.o;if(!o)return;var px=o.bid>0&&o.ask>0?(o.bid+o.ask)/2:o.mark,sp=o.bid>0&&o.ask>0?o.ask-o.bid:0;
+  $('ovn').textContent=(o.t=='C'?'Call ':'Put ')+o.k;$('ovs').textContent=olDay(o.e)+' · '+olSym(o);
+  $('ovp').innerHTML='$'+(px>0?px.toFixed(px>=100?1:2):'–')+'<small id="ovch24" class="'+(OL.chg>=0?'g':'r')+'">'+(OL.chg!=null?(OL.chg>=0?'+':'')+OL.chg.toFixed(2)+'%':'')+'</small>';
+  $('ovk').innerHTML='<div><small>Mark IV</small><b>'+(o.iv>0?(o.iv*100).toFixed(1)+'%':'–')+'</b></div><div><small>24h Vol</small><b>'+v6fmt(o.vol*LOT,2)+' BTC</b></div><div><small>OI</small><b>'+v6fmt(o.oi*LOT,2)+' BTC</b></div><div><small>Delta</small><b>'+(o.d?o.d.toFixed(3):'–')+'</b></div>';
+  $('ovr').innerHTML='<div class="row2"><span>Mark</span><b>$'+olf(o.mark)+'</b></div><div class="row2"><span>Best Bid</span><b class="g">$'+olf(o.bid)+'</b></div><div class="row2"><span>Best Ask</span><b class="r">$'+olf(o.ask)+'</b></div><div class="row2"><span>Spread</span><b>'+(sp?'$'+sp.toFixed(1):'–')+'</b></div><div class="row2"><span>1 Lot</span><b>0.001 BTC</b></div><div class="ovb"><button style="background:var(--g)" data-s="B">Buy</button><button style="background:var(--r)" data-s="S">Sell</button></div><div class="mu" style="margin-top:6px;font-size:12px">पेपर-ट्रेड कॅल्क्युलेटरमध्ये उघडतो (खरी ऑर्डर नाही)</div>';
+  var bs=$('ovr').querySelectorAll('[data-s]');[].forEach.call(bs,function(b){b.onclick=function(){psd=b.dataset.s;var oo=OL.o;olClose();openOpt(oo)}});
+  if($('ovin').hidden==false)olInfo()}
+async function olBook(){var o=OL.o;if(!o)return;var id=++OL.seq;
+  try{var r=await fetch('https://api.india.delta.exchange/v2/l2orderbook/'+olSym(o)+'?depth=8'),j=await r.json(),b=j.result;if(id!==OL.seq||!b)return;
+    var as=(b.sell||[]).map(function(x){return[+x.price,+x.size*LOT]}).sort(function(x,y){return x[0]-y[0]}).slice(0,8),bd=(b.buy||[]).map(function(x){return[+x.price,+x.size*LOT]}).sort(function(x,y){return y[0]-x[0]}).slice(0,8),mx=Math.max.apply(null,as.concat(bd).map(function(x){return x[1]}))||1,h='<div class="mu" style="display:flex;justify-content:space-between;font-size:12px"><span>Price(USD)</span><span>Size(BTC)</span></div>';
+    as.slice().reverse().forEach(function(x){h+='<div class="obr"><i style="background:var(--r);width:'+(x[1]/mx*100)+'%"></i><span style="color:var(--r)">'+x[0].toFixed(1)+'</span><span>'+x[1].toFixed(3)+'</span></div>'});
+    var px=as.length&&bd.length?(as[0][0]+bd[0][0])/2:o.mark;h+='<div class="obmid" style="color:var(--r)">$'+(px>0?px.toFixed(1):'–')+'<small>M Mark '+olf(o.mark)+'</small></div>';
+    bd.forEach(function(x){h+='<div class="obr"><i style="background:var(--g);width:'+(x[1]/mx*100)+'%"></i><span style="color:var(--g)">'+x[0].toFixed(1)+'</span><span>'+x[1].toFixed(3)+'</span></div>'});
+    $('ovob').innerHTML=(as.length||bd.length)?h:'<div class="mu">ऑर्डरबुक रिकामे</div>'}catch(e){if(id===OL.seq)$('ovob').innerHTML='<div class="mu">ऑर्डरबुक नाही</div>'}}
+function olTab(t){[].forEach.call($('ovtb').children,function(b){b.classList.toggle('on',b.dataset.v==t)});$('ovch').hidden=t!='ch';$('ovin').hidden=t!='in';if(t=='in')olInfo()}
+$('ovtb').onclick=function(e){var b=e.target.closest('button');if(b)olTab(b.dataset.v)};
+function olInfo(){var o=OL.o,S=aspot||n('s'),be=o.t=='C'?o.k+o.mark:o.k-o.mark,ins=o.t=='C'?Math.max(S-o.k,0):Math.max(o.k-S,0);
+  function r(a,b){return'<div class="row2"><span>'+a+'</span><b>'+b+'</b></div>'}
+  $('ovin').innerHTML='<div class="card ovr">'+r('BTC Spot','$'+S.toFixed(1))+r('Strike',o.k)+r('Expiry',olDay(o.e)+' · '+olLeft(o.e))+r('Intrinsic','$'+ins.toFixed(1))+r('Time value','$'+Math.max(o.mark-ins,0).toFixed(1))+r('Break-even (mark)','$'+be.toFixed(0))+r('Spot → BE','$'+(be-S).toFixed(0)+' ('+((be/S-1)*100).toFixed(2)+'%)')+r('Mark IV',o.iv>0?(o.iv*100).toFixed(1)+'%':'–')+r('Delta',o.d?o.d.toFixed(3):'–')+'</div>'}
+async function olChart(){var o=OL.o,sym=olSym(o),res=OL.res,id='MARK:'+sym+'|'+res,o0=o;$('ovcs').textContent='⏳ चार्ट येत आहे...';
+  try{var rows=await fetchC('MARK:'+sym,res,200);OL.cn=await idbMerge(id,sym,res,rows);$('ovcs').textContent='✅ '+OL.cn.length+' कँडल्स ऑटो-सेव्ह झाल्या (Mark Price · '+res+')'}
+  catch(e){var rec=await idbGet('cndl',id).catch(function(){return null});OL.cn=rec?rec.rows:[];$('ovcs').textContent='❌ '+e.message+(OL.cn.length?' — सेव्ह केलेला डेटा दाखवत आहे ('+OL.cn.length+')':'')}
+  if(OL.o!==o0)return;OL.sel=-1;var a=OL.cn;OL.chg=null;if(a.length>1){var last=a[a.length-1],t0=last[0]-86400,ref=a[0];for(var i=0;i<a.length;i++){if(a[i][0]<=t0)ref=a[i]}if(ref[4]>0)OL.chg=(last[4]/ref[4]-1)*100}olHdr();olDraw()}
+$('ovre').onclick=function(e){var b=e.target.closest('button');if(!b)return;OL.res=b.dataset.v;[].forEach.call(this.children,function(x){x.classList.toggle('on',x===b)});olChart()};
+function olDraw(){var a=OL.cn.slice(-120),el=$('ovsv'),cnt=a.length;if(!cnt){el.innerHTML='<text x="180" y="125" font-size="12" text-anchor="middle" style="fill:var(--mu)">डेटा नाही</text>';$('ovci').textContent='';return}
+  var W=360,H=250,L=4,R=46,T=8,PH=185,VT=198,VH=34,cw=(W-L-R)/cnt,hi=Math.max.apply(null,a.map(function(c){return c[2]})),lo=Math.min.apply(null,a.map(function(c){return c[3]})),vm=Math.max.apply(null,a.map(function(c){return c[5]}))||1;if(hi==lo){hi+=1;lo-=1}
+  var Y=function(v){return T+(hi-v)/(hi-lo)*(PH-T)},X=function(i){return L+i*cw+cw/2},s='';
+  for(var g=0;g<=4;g++){var v=lo+(hi-lo)*g/4,y=Y(v);s+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+y+'" y2="'+y+'" style="stroke:var(--bd)"/><text x="'+(W-R+3)+'" y="'+(y+3)+'" font-size="9" style="fill:var(--mu)">'+fmtP(v)+'</text>'}
+  a.forEach(function(c,i){var col=c[4]>=c[1]?'var(--g)':'var(--r)',x=X(i),bw=Math.max(1,cw*.65);s+='<line x1="'+x+'" x2="'+x+'" y1="'+Y(c[2])+'" y2="'+Y(c[3])+'" style="stroke:'+col+'"/><rect x="'+(x-bw/2)+'" y="'+Math.min(Y(c[1]),Y(c[4]))+'" width="'+bw+'" height="'+Math.max(1,Math.abs(Y(c[1])-Y(c[4])))+'" style="fill:'+col+'"/><rect x="'+(x-bw/2)+'" y="'+(VT+VH-c[5]/vm*VH)+'" width="'+bw+'" height="'+(c[5]/vm*VH)+'" style="fill:'+col+';opacity:.4"/>'});
+  var lc=a[cnt-1][4];s+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+Y(lc)+'" y2="'+Y(lc)+'" style="stroke:var(--ac)" stroke-dasharray="3"/><rect x="'+(W-R)+'" y="'+(Y(lc)-7)+'" width="'+R+'" height="14" style="fill:var(--ac)"/><text x="'+(W-R+3)+'" y="'+(Y(lc)+3)+'" font-size="9" style="fill:#000">'+fmtP(lc)+'</text>';
+  [0,Math.floor(cnt/2),cnt-1].forEach(function(i){s+='<text x="'+X(i)+'" y="'+(H-4)+'" font-size="9" text-anchor="'+(i==0?'start':i==cnt-1?'end':'middle')+'" style="fill:var(--mu)">'+tlab(a[i][0])+'</text>'});
+  if(OL.sel>=0&&OL.sel<cnt)s+='<line x1="'+X(OL.sel)+'" x2="'+X(OL.sel)+'" y1="'+T+'" y2="'+(VT+VH)+'" style="stroke:var(--tx)" stroke-dasharray="2"/>';
+  el.innerHTML=s;var c=a[OL.sel>=0&&OL.sel<cnt?OL.sel:cnt-1],ch=c[1]?(c[4]/c[1]-1)*100:0;
+  $('ovci').innerHTML='<b style="color:var(--tx)">'+tlab(c[0])+'</b> · O '+fmtP(c[1])+' H '+fmtP(c[2])+' L '+fmtP(c[3])+' C '+fmtP(c[4])+' · <span class="'+(ch>=0?'g':'r')+'">'+(ch>=0?'+':'')+ch.toFixed(2)+'%</span>'}
+$('ovsv').onclick=function(e){var a=OL.cn.slice(-120);if(!a.length)return;var r=this.getBoundingClientRect(),x=(e.clientX-r.left)/r.width*360,cw=(360-4-46)/a.length;OL.sel=Math.max(0,Math.min(a.length-1,Math.floor((x-4)/cw)));olDraw()};
+/* auto-archive: दर तासाला चेन स्नॅपशॉट + जवळच्या स्ट्राईक्सचे चार्ट */
+async function olAuto(force){if(localStorage.getItem('ol_auto')==='0'||OL.run||!all.length)return;OL.run=1;var st=$('olas');
+  try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist();
+    var now=Date.now(),last=+localStorage.getItem('ol_snap')||0,ex=[],seen={};all.forEach(function(o){if(!seen[o.e]&&edt(o.e)+43200000>now){seen[o.e]=1;ex.push(o.e)}});ex.sort(function(a,b){return edt(a)-edt(b)});
+    if(force||now-last>3300000){var rows=[];all.forEach(function(o){if(ex.slice(0,4).indexOf(o.e)>=0&&o.mark>0)rows.push([o.t,o.k,o.e,o.bid,o.ask,o.mark,+o.iv.toFixed(4),o.d,o.oi,o.vol])});await idbPut('snap',{ts:now,day:dayKey(now),spot:aspot,rows:rows});localStorage.setItem('ol_snap',now)}
+    var list=[];ex.slice(0,3).forEach(function(e){var ks=[],m={};all.forEach(function(o){if(o.e===e){if(!m[o.k]){m[o.k]=1;ks.push(o.k)}}});ks.sort(function(a,b){return a-b});var i0=0,bd=1e12;ks.forEach(function(k,i){if(Math.abs(k-aspot)<bd){bd=Math.abs(k-aspot);i0=i}});ks.slice(Math.max(0,i0-12),i0+13).forEach(function(k){['C','P'].forEach(function(t){if(all.some(function(o){return o.e===e&&o.k===k&&o.t===t}))list.push(t+'-BTC-'+k+'-'+e)})})});
+    var done=0,idx=0;async function w(){while(idx<list.length){var sym=list[idx++],id='MARK:'+sym+'|1h';try{var rec=await idbGet('cndl',id);if(!force&&rec&&Date.now()-rec.upd<21600000){done++;continue}var rw=await fetchC('MARK:'+sym,'1h',200);await idbMerge(id,sym,'1h',rw)}catch(e){}done++;if(st)st.textContent='⏳ ऑटो-सेव्ह: '+done+'/'+list.length}}
+    await Promise.all([w(),w(),w(),w()]);localStorage.setItem('ol_last',Date.now());
+  }catch(e){if(st)st.textContent='❌ सेव्ह त्रुटी: '+e.message}
+  OL.run=0;if(!$('ola').hidden)olArc()}
+async function olArc(){var el=$('ola'),sn=await idbAll('snap'),cd=await idbAll('cndl'),days={};sn.forEach(function(s){(days[s.day]=days[s.day]||[]).push(s)});
+  var dk=Object.keys(days).sort().reverse(),ex={};cd.forEach(function(c){var e=olPrs(c.sym).e;ex[e]=1});var ek=Object.keys(ex).sort(function(a,b){return edt(b)-edt(a)}),fe=OL.fe&&ex[OL.fe]?OL.fe:ek[0],last=+localStorage.getItem('ol_last')||0,auto=localStorage.getItem('ol_auto')!=='0';
+  var h='<div class="card"><label style="display:flex;gap:8px;align-items:center;font-size:15px;color:var(--tx)"><input type="checkbox" id="olau" style="width:auto"'+(auto?' checked':'')+'> रोज ऑटो-सेव्ह (अॅप उघडे असताना)</label><div class="mu" id="olas" style="margin:8px 0">'+(last?'शेवटचे सेव्ह: '+new Date(last).toLocaleString():'अजून सेव्ह नाही')+'<br>'+sn.length+' स्नॅपशॉट · '+cd.length+' चार्ट सेव्ह</div><div class="q"><button id="olsn">💾 आता सेव्ह करा</button><button id="olex">⬇ सगळे JSON</button></div></div>';
+  h+='<div class="card"><b>📅 दिवसानुसार चेन स्नॅपशॉट</b>'+(dk.length?'':'<div class="mu">अजून काही नाही</div>');dk.forEach(function(d){h+='<div class="alr"><span>'+d+' · '+days[d].length+' स्नॅपशॉट</span><button data-d="'+d+'">CSV</button></div>'});h+='</div>';
+  h+='<div class="card"><b>📈 सेव्ह केलेले ऑप्शन चार्ट</b>'+(ek.length?'<select id="olae" style="margin:8px 0">'+ek.map(function(e){return'<option value="'+e+'"'+(e===fe?' selected':'')+'>'+olDay(e)+' 20'+e.slice(4)+'</option>'}).join('')+'</select>':'<div class="mu">अजून काही नाही</div>');
+  cd.filter(function(c){return olPrs(c.sym).e===fe}).sort(function(a,b){return olPrs(a.sym).k-olPrs(b.sym).k||(a.sym<b.sym?-1:1)}).forEach(function(c){var p=olPrs(c.sym);h+='<div class="alr sy" data-s="'+c.sym+'"><span>'+(p.t=='C'?'Call':'Put')+' '+p.k+'</span><span class="mu">'+c.rows.length+' कँडल्स · '+tlab(c.rows[c.rows.length-1][0])+'</span></div>'});
+  el.innerHTML=h+'</div>';
+  $('olau').onchange=function(){localStorage.setItem('ol_auto',this.checked?'1':'0')};
+  $('olsn').onclick=function(){olAuto(true)};
+  $('olex').onclick=function(){dl('btc-options-archive-'+dayKey()+'.json',JSON.stringify({snapshots:sn,candles:cd}),'application/json')};
+  var ae=$('olae');if(ae)ae.onchange=function(){OL.fe=this.value;olArc()};
+  el.onclick=function(e){var b=e.target.closest('button[data-d]');if(b){var d=b.dataset.d,c='time,spot,type,strike,expiry,bid,ask,mark,iv,delta,oi,vol\n';days[d].sort(function(x,y){return x.ts-y.ts}).forEach(function(s){s.rows.forEach(function(r){c+=new Date(s.ts).toISOString()+','+s.spot+','+r.join(',')+'\n'})});dl('btc-chain-'+d+'.csv',c,'text/csv');return}
+    var s=e.target.closest('[data-s]');if(s){var p=olPrs(s.dataset.s),cur=all.filter(function(x){return x.t==p.t&&x.k==p.k&&x.e==p.e})[0];olOpen(cur||{t:p.t,k:p.k,e:p.e,bid:0,ask:0,mark:0,iv:0,d:0,oi:0,vol:0})}}}
+$('olv').addEventListener('click',function(e){e.stopPropagation()});
+
+loadSet();hlFromDate();avDraw();calc();liveOn();applyLang(true);tab(8);
 </script>
 </body>
 </html>
